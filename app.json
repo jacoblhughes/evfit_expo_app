@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "expo_app_2.0",
-    "slug": "expo_app_2.0",
+    "name": "EvidentFitness",
+    "slug": "evidentfitnessapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/shapes.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -17,13 +17,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jacoblhughes.expoapptwo"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/shapes.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.jacoblhughes.expoapptwo"
     },
     "web": {
       "favicon": "./assets/favicon.png"
