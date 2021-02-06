@@ -10,6 +10,7 @@ import DashboardScreen from "./src/screens/DashboardScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import BlogScreen from "./src/screens/BlogScreen";
 import SocialScreen from "./src/screens/SocialScreen";
+import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 
 
 // import LoadingScreen from './src/screens/LoadingScreen';
@@ -38,6 +39,11 @@ function HomeSec() {
       <Stack.Screen
         name="Social"
         component={SocialScreen}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
         options={{ headerShown: true }}
       />
     </Stack.Navigator>

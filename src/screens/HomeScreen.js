@@ -202,7 +202,7 @@ class HomeScreen extends React.Component {
           }
         })
         .then((res) => {
-
+          console.log(res);
           // this.props.updateProfileInfoAction(res[0]);
           // this.props.authorizeAction(true);
 
@@ -264,6 +264,7 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           // console.log(res);
+          console.log(res);
           this.props.updateProfileInfoAction(res[0]);
         });
     } catch (error) {
@@ -302,7 +303,7 @@ class HomeScreen extends React.Component {
               this.props.navigation.navigate("Blog", { postData: item });
             }}
           >
-            <Text >{item.title}</Text>
+            <Text>{item.title}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -349,21 +350,23 @@ class HomeScreen extends React.Component {
     ) {
       return (
         <View style={styles.container}>
-          <Image
-            style={styles.logo}
-            source={require("../../src/images/logo.png")}
-          />
-
+          <View style={styles.logoView}>
+            <Image
+              style={styles.logo}
+              source={require("../../src/images/logo.png")}
+            />
+          </View>
           <View style={styles.buttonView}>
             <TextInput
               style={styles.username}
               placeholder="Username"
+              label="Username"
+              autoCompleteType="username"
               onChangeText={(text) => this.props.setUsernameAction(text)}
             />
             <PasswordInputText
               style={styles.password}
               getRef={(input) => (this.input = input)}
-              label="Password"
               autoCompleteType="password"
               placeholder="Password"
               onChangeText={(text) => this.props.setPasswordAction(text)}
@@ -376,6 +379,16 @@ class HomeScreen extends React.Component {
                 this.retrieveToken();
               }}
             />
+            <TouchableOpacity>
+              <Text
+                style={styles.button}
+                onPress={() => {
+                  this.props.navigation.navigate("ForgotPassword");
+                }}
+              >
+                Forgot Password
+              </Text>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -419,10 +432,11 @@ class HomeScreen extends React.Component {
                 BackHandler.exitApp();
               }}
             />
-
           </View>
           <View style={styles.postTitleView}>
-            <Text style={styles.postTitle}>Most recent blog entries from EvidentFitness:</Text>
+            <Text style={styles.postTitle}>
+              Most recent blog entries from EvidentFitness:
+            </Text>
           </View>
           <View style={styles.postView}>{this.blogList()}</View>
           <View style={styles.postTitleView}>
@@ -444,13 +458,13 @@ const styles = StyleSheet.create({
   },
   logoView: {
     flex: 5,
-    height: null,
     alignItems: "center",
+
   },
   logo: {
     flex: 1,
-    height: null,
     resizeMode: "contain",
+
   },
   buttonView: {
     flex: 4,
@@ -464,16 +478,24 @@ const styles = StyleSheet.create({
   },
   postTitle: {
     flex: 1,
+    justifyContent: "space-around",
   },
   postView: {
     flex: 3,
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
   post: {
     flex: 1,
   },
+  username: {
+    width: 200,
+    borderColor: "black",
+    borderWidth: 1,
+  },
   password: {
-    width: 100,
+    width: 200,
+    borderColor: "black",
+    borderWidth: 1,
   },
 });
 

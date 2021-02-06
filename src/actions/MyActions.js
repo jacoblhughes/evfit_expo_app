@@ -51,3 +51,8 @@ export const getHabitsAction = (res_from_getting_habits) => ({
   type: "GETHABITS",
   payload: res_from_getting_habits,
 });
+
+export const setEmailAction = (email_for_password) => ({
+  type: "SETEMAIL",
+  payload: email_for_password,
+});

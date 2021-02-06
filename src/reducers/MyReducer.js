@@ -15,8 +15,10 @@ const INITIAL_STATE = {
   inputPassword: null,
   recentBlog: null,
   getPosts: null,
+  // internet: 'http://86755e9cb48c.ngrok.io',
   internet: 'https://evidentfitness.com',
-  getHabits: null
+  getHabits: null,
+  setEmail: null,
 };
 
 const myReducer = (state = INITIAL_STATE, action) => {
@@ -124,6 +126,14 @@ const myReducer = (state = INITIAL_STATE, action) => {
         getHabits: action.payload,
       };
     
+    }
+
+    case 'SETEMAIL':{
+      return {
+        ...state,
+        // and update the copy with the new value
+        setEmail: action.payload,
+      };
     }
 
 
