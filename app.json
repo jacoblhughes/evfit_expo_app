@@ -18,17 +18,17 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.jacoblhughes.expoapptwo"
+      "bundleIdentifier": "com.jacoblhughes.evidentfitnessapp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/shapes.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.jacoblhughes.expoapptwo"
+      "package": "com.jacoblhughes.evidentfitnessapp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.png"
     }
   }
 }
