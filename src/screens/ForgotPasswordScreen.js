@@ -99,13 +99,6 @@ class ForgotPasswordScreen extends React.Component {
                 this.submitEmail();
               }}
             />
-            <Button
-              style={styles.button}
-              title="Console"
-              onPress={() => {
-                console.log(this.state);
-              }}
-            />
           </View>
         </View>
       );

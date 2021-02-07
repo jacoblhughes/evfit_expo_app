@@ -3,8 +3,9 @@
     "name": "EvidentFitness",
     "slug": "evidentfitnessapp",
     "version": "1.0.0",
+    "privacy": "unlisted",
     "orientation": "portrait",
-    "icon": "./assets/shapes.png",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
