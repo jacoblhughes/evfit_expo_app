@@ -160,7 +160,7 @@ class HomeScreen extends React.Component {
     return temp_array.map((item) => {
       console.log();
       return (
-        <View style={styles.buttonView} key={item.id}>
+        <View style={styles.socialView} key={item.id}>
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate("Social", {
@@ -170,7 +170,7 @@ class HomeScreen extends React.Component {
               });
             }}
           >
-            <Text>{item.name}</Text>
+            <Text style={styles.textAll} >{item.name}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -220,6 +220,9 @@ class HomeScreen extends React.Component {
         });
     } catch (error) {
       console.log(error);
+      this.props.loadingAction(false);
+
+      this.props.navigation.navigate("Home");
     }
   };
 
@@ -297,13 +300,13 @@ class HomeScreen extends React.Component {
   blogList = () => {
     return this.props.enemies.recentBlog.map((item) => {
       return (
-        <View style={styles.buttonView} key={item.id}>
+        <View style={styles.blogView} key={item.id}>
           <TouchableOpacity
             onPress={() => {
               this.props.navigation.navigate("Blog", { postData: item });
             }}
           >
-            <Text>{item.title}</Text>
+            <Text style={styles.textAll}>{item.title}</Text>
           </TouchableOpacity>
         </View>
       );
@@ -356,7 +359,7 @@ class HomeScreen extends React.Component {
               source={require("../../src/images/logo.png")}
             />
           </View>
-          <View style={styles.buttonView}>
+          <View style={styles.inputView}>
             <TextInput
               style={styles.username}
               placeholder="Username"
@@ -371,23 +374,29 @@ class HomeScreen extends React.Component {
               placeholder="Password"
               onChangeText={(text) => this.props.setPasswordAction(text)}
             />
-            <Button
-              style={styles.button}
-              title="Login"
+          </View>
+          <View style={styles.buttonView}>
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
                 this.props.loadingAction(true);
                 this.retrieveToken();
               }}
-            />
-            <TouchableOpacity>
-              <Text
-                style={styles.button}
-                onPress={() => {
-                  this.props.navigation.navigate("ForgotPassword");
-                }}
-              >
-                Forgot Password
-              </Text>
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Login</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.loadingAction(true);
+                this.retrieveToken();
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Forgot Password</Text>
+              </View>
             </TouchableOpacity>
           </View>
         </View>
@@ -409,33 +418,44 @@ class HomeScreen extends React.Component {
           </View>
 
           <View style={styles.buttonView}>
-            <Button
-              style={styles.button}
-              title="Habit Check-in"
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
                 this.props.loadingAction(true);
                 Promise.all[(this.fetchProfile(), this.habitCheck())];
                 this.props.navigation.navigate("DashboardSec");
               }}
-            />
-            <Button
-              style={styles.button}
-              title="Logout"
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Habit Check-In</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
                 this._storeAsyncStorageTokenandLogout(null);
               }}
-            />
-            <Button
-              style={styles.button}
-              title="Exit"
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Logout</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
                 BackHandler.exitApp();
               }}
-            />
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Exit</Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.postTitleView}>
             <Text style={styles.postTitle}>
-              Most recent blog entries from EvidentFitness:
+              Most recent blog entries from Evident Fitness:
             </Text>
           </View>
           <View style={styles.postView}>{this.blogList()}</View>
@@ -459,43 +479,88 @@ const styles = StyleSheet.create({
   logoView: {
     flex: 5,
     alignItems: "center",
-
   },
   logo: {
     flex: 1,
     resizeMode: "contain",
-
   },
   buttonView: {
-    flex: 4,
-    alignItems: "center",
+    flex: 3,
+    width: 200,
+    justifyContent: "space-evenly",
+    alignSelf: "center",
   },
-  button: {
-    flex: 1,
+  blogView: {
+    flex: 3,
+    justifyContent: "center",
+    backgroundColor: '#AE4828',
+    alignItems: "stretch",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor : '#00132F',
+    paddingHorizontal: 10,
+
+
+  },
+  socialView: {
+    flex: 3,
+    justifyContent: "center",
+    backgroundColor: '#AE4828',
+    alignItems: "stretch",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor : '#00132F',
+    paddingHorizontal: 10,
+
+  },
+  inputView: {
+    flex: 2,
+    alignItems: "center",
   },
   postTitleView: {
     flex: 1,
+    backgroundColor: '#C18527',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+
   },
   postTitle: {
-    flex: 1,
-    justifyContent: "space-around",
+    justifyContent: 'center',
+    fontWeight: 'bold',
+    color: '#00132F',
+    
+  },
+  homeButtonView: {
+    alignItems: "center",
+  },
+  homeButton: {
+    backgroundColor: "#1F3252",
+    height: 40,
+    justifyContent: "center",
   },
   postView: {
     flex: 3,
     justifyContent: "space-around",
+    backgroundColor: '#AE4828',
+
   },
   post: {
     flex: 1,
   },
   username: {
-    width: 200,
+    width: 300,
     borderColor: "black",
     borderWidth: 1,
+    flex: 1,
   },
   password: {
-    width: 200,
+    width: 300,
     borderColor: "black",
     borderWidth: 1,
+    flex: 1,
+  },
+  textAll: {
+    color: "#FFFFFF"
   },
 });
 

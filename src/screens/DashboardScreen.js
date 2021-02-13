@@ -9,6 +9,7 @@ import { logOutAction } from "../actions/MyActions.js";
 import { checkLastPostAction } from "../actions/MyActions.js";
 
 import { bindActionCreators } from "redux";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 // import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -21,13 +22,10 @@ class DashboardScreen extends React.Component {
     this.submitYes = this.submitYes.bind(this);
     this.submitNo = this.submitNo.bind(this);
     this.habitCheck = this.habitCheck.bind(this);
-
+    this.state = {lastLoggedDay: new Date(this.props.enemies.lastPost).toISOString().split("T")[0]}
   }
 
-
-
   submitYes = () => {
-
     fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
       method: "POST",
       headers: {
@@ -133,32 +131,43 @@ class DashboardScreen extends React.Component {
               Your habit: {this.props.enemies.userHabit}
             </Text>
             <Text style={styles.text}>
-              Your last logged day: {this.props.enemies.lastPost}
+              Your last logged day: {this.state.lastLoggedDay}
             </Text>
           </View>
           <View style={styles.buttonView}>
             <Text style={styles.text}>Log your habit for the day!:</Text>
-            <Button
-              style={styles.button}
-              title="Yes"
+
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
                 this.submitYes();
               }}
-            />
-            <Button
-              style={styles.button}
-              title="No"
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Yes</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
                 this.submitNo();
               }}
-            />
-                        <Button
-              style={styles.button}
-              title="Back"
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>No</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
-                this.props.navigation.goBack()
+                this.props.navigation.goBack();
               }}
-            />
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Back</Text>
+              </View>
+            </TouchableOpacity>
+
           </View>
         </View>
       );
@@ -177,19 +186,22 @@ class DashboardScreen extends React.Component {
               Your habit: {this.props.enemies.userHabit}
             </Text>
             <Text style={styles.text}>
-              Your last logged day: {this.props.enemies.lastPost}
+              Your last logged day: {this.state.lastLoggedDay}
             </Text>
           </View>
           <View style={styles.buttonView}>
-            <Text style={styles.text}>You already logged:</Text>
-            <Button
-              style={styles.button}
-              title="Back"
-              onPress={() => {
-                this.props.navigation.goBack()
-              }}
-            />
+            <Text style={styles.text}>You already logged!:</Text>
 
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.navigation.goBack();
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Back</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -211,9 +223,20 @@ const styles = StyleSheet.create({
   buttonView: {
     flex: 1,
     justifyContent: "space-evenly",
+    alignItems:'stretch',
+
   },
   button: {
     flex: 1,
+  },
+  homeButton: {
+    backgroundColor: "#1F3252",
+    height: 40,
+    justifyContent: "center",
+  },
+  textAll: {
+    color: "#FFFFFF",
+    alignSelf: 'center',
   },
 });
 

@@ -18,6 +18,7 @@ import { checkLastPostAction } from "../actions/MyActions.js";
 import { getRecentBlogAction } from "../actions/MyActions.js";
 import { setPasswordAction } from "../actions/MyActions.js";
 import { getPostsAction } from "../actions/MyActions.js";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { bindActionCreators } from "redux";
 
@@ -42,7 +43,6 @@ class SocialScreen extends React.Component {
     this.postMessage = this.postMessage.bind(this);
     this.state = { message: null };
     this.fetchPosts = this.fetchPosts.bind(this);
-    
   }
   componentDidUpdate(prevProps) {
     // if (!prevProps.enemies.getPosts && this.props.enemies.getPosts) {
@@ -51,6 +51,9 @@ class SocialScreen extends React.Component {
 
   componentDidMount() {
     this.fetchPosts();
+    this.props.navigation.setOptions({
+      title: this.props.route.params.postName,
+    });
   }
 
   postMessage = () => {
@@ -128,9 +131,6 @@ class SocialScreen extends React.Component {
     return (
       <View style={styles.flex1} contentContainerStyle={{ flexGrow: 1 }}>
         <View style={styles.container}>
-          <View style={styles.title}>
-            <Text>{this.props.route.params.postName}</Text>
-          </View>
           <View style={styles.scrolls}>
             <ScrollView>{this.socialList()}</ScrollView>
           </View>
@@ -141,16 +141,20 @@ class SocialScreen extends React.Component {
               value={this.state.message}
               onChangeText={(text) => this.setState({ message: text })}
             ></TextInput>
-            <Button
-              style={styles.flex1}
-              title="Submit"
+
+            <TouchableOpacity
+              style={styles.homeButton}
               onPress={() => {
                 this.postMessage();
                 this.setState({
                   message: "",
                 });
               }}
-            />
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Submit</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -183,9 +187,24 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
   },
-  message_area:{
-    flex: 3
-  }
+  message_area: {
+    flex: 3,
+    justifyContent: "space-around",
+  },
+  textAll: {
+    color: "#FFFFFF",
+
+  },
+  homeButtonView: {
+    flex: 1,
+    justifyContent:'center',
+    alignSelf:'center',
+  },
+  homeButton: {
+    backgroundColor: "#1F3252",
+    height: 40,
+    justifyContent: "center",
+  },
 });
 
 const mapStateToProps = (state) => {

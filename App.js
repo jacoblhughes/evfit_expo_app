@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createStore, applyMiddleware } from "redux";
@@ -11,7 +11,6 @@ import WelcomeScreen from "./src/screens/WelcomeScreen";
 import BlogScreen from "./src/screens/BlogScreen";
 import SocialScreen from "./src/screens/SocialScreen";
 import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
-
 
 // import LoadingScreen from './src/screens/LoadingScreen';
 import ReactDOM from "react-dom";
@@ -34,17 +33,49 @@ function HomeSec() {
       <Stack.Screen
         name="Blog"
         component={BlogScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+            fontSize: 10,
+          },
+        }}
       />
       <Stack.Screen
         name="Social"
         component={SocialScreen}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+            fontSize: 10,
+          },
+        }}
       />
       <Stack.Screen
         name="ForgotPassword"
         component={ForgotPasswordScreen}
-        options={{ headerShown: true }}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
       />
     </Stack.Navigator>
   );

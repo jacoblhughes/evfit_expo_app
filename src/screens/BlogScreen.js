@@ -11,6 +11,7 @@ import { getRecentBlogAction } from "../actions/MyActions.js";
 import { setPasswordAction } from "../actions/MyActions.js";
 
 import { bindActionCreators } from "redux";
+import HTML from "react-native-render-html";
 
 import PasswordInputText from "react-native-hide-show-password-input";
 
@@ -34,17 +35,19 @@ class BlogScreen extends React.Component {
   }
 
   componentDidMount() {
+
+    this.props.navigation.setOptions({ title: this.props.route.params.postData.title })
   }
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.postView}>
-          <View style={styles.postTitle}>
-            <Text>{this.props.route.params.postData.title}</Text>
-          </View>
           <View style={styles.postBody}>
-            <Text>{this.props.route.params.postData.content}</Text>
+            <HTML
+              source={{ html: this.props.route.params.postData.content }}
+            />
+            {/* <Text>{this.props.route.params.postData.content}</Text> */}
           </View>
         </View>
       </View>
@@ -56,18 +59,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    alignItems: "center",
-    justifyContent: "center",
   },
   postView: {
     flex: 1,
   },
-  postTitle: {
-    flex: 2,
-    justifyContent:'space-around'
-  },
   postBody: {
-    flex: 8,
+    flex: 1,
   },
 });
 
