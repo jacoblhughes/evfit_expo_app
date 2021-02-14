@@ -23,6 +23,7 @@
     },
     "android": {
       "versionCode": 2,
+      "versionName": "2.0.1",
       "adaptiveIcon": {
         "foregroundImage": "./assets/shapes.png",
         "backgroundColor": "#FFFFFF"
