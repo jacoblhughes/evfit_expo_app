@@ -77,7 +77,7 @@ class HomeScreen extends React.Component {
       await AsyncStorage.removeItem("@token");
     } catch (error) {
       // saving error
-      console.log(error);
+      // console.log(error);
     }
     this.props.logOutAction();
   };
@@ -158,7 +158,7 @@ class HomeScreen extends React.Component {
       temp_array.push(newObj);
     });
     return temp_array.map((item) => {
-      console.log();
+      // console.log();
       return (
         <View style={styles.socialView} key={item.id}>
           <TouchableOpacity
@@ -176,7 +176,6 @@ class HomeScreen extends React.Component {
       );
     });
 
-    console.log(temp_array);
   };
 
   retrieveToken = async () => {
@@ -202,7 +201,6 @@ class HomeScreen extends React.Component {
           }
         })
         .then((res) => {
-          console.log(res);
           // this.props.updateProfileInfoAction(res[0]);
           // this.props.authorizeAction(true);
 
@@ -267,7 +265,6 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           // console.log(res);
-          console.log(res);
           this.props.updateProfileInfoAction(res[0]);
         });
     } catch (error) {
@@ -337,7 +334,6 @@ class HomeScreen extends React.Component {
         return response.json();
       })
       .then((res) => {
-        console.log(res);
       })
       .catch((error) => {
         console.log("this is the deal" + error.message + error.body);

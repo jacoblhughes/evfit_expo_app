@@ -2,7 +2,6 @@
   "expo": {
     "name": "EvidentFitness",
     "slug": "evidentfitnessapp",
-    "version": "2.0.0",
     "privacy": "unlisted",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,10 +17,12 @@
       "**/*"
     ],
     "ios": {
+      "buildNumber": "2",
       "supportsTablet": true,
       "bundleIdentifier": "com.jacoblhughes.evidentfitnessapp"
     },
     "android": {
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/shapes.png",
         "backgroundColor": "#FFFFFF"

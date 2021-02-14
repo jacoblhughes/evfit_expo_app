@@ -124,7 +124,6 @@ class WelcomeScreen extends React.Component {
     console.log("here");
     try {
       const value = await AsyncStorage.getItem("@token");
-      console.log(value);
       if (value !== null && value !== "") {
         Promise.all[this.props.setTokenAction(value)];
         Promise.all[(this.fetchBlog(), this.fetchPosts(), this.fetchHabits())];

@@ -71,7 +71,7 @@ class ForgotPasswordScreen extends React.Component {
         this.setState({ submitted: true });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
 
