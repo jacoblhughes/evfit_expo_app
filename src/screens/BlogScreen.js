@@ -35,20 +35,20 @@ class BlogScreen extends React.Component {
   }
 
   componentDidMount() {
-
-    this.props.navigation.setOptions({ title: this.props.route.params.postData.title })
+    this.props.navigation.setOptions({
+      title: this.props.route.params.postData.title,
+    });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.postView}>
-          <View style={styles.postBody}>
-            <HTML
-              source={{ html: this.props.route.params.postData.content }}
-            />
-            {/* <Text>{this.props.route.params.postData.content}</Text> */}
-          </View>
+        <View style={styles.postBody}>
+          <HTML source={{ html: this.props.route.params.postData.content }} />
+          {/* <Text>{this.props.route.params.postData.content}</Text> */}
+        </View>
+        <View style={styles.postBottom}>
+          <Text>Written by: {this.props.route.params.postData.authorname}</Text>
         </View>
       </View>
     );
@@ -60,11 +60,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
-  postView: {
-    flex: 1,
-  },
   postBody: {
     flex: 1,
+    padding: 10,
+  },
+  postBottom: {
+    padding: 10,
   },
 });
 

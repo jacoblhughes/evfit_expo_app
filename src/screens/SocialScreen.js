@@ -84,21 +84,72 @@ class SocialScreen extends React.Component {
       });
   };
 
+  deletePost = (post_id) => {
+    fetch(`${this.props.enemies.internet}/api/habit_posts/${post_id}/`, {
+      method: "DELETE",
+      headers: {
+        // "Accept": "application/json",
+        "Content-Type": "application/json",
+        // 'X-Requested-With': 'XMLHttpRequest',
+        Authorization: "Token " + this.props.enemies.token,
+      },
+      body: JSON.stringify({
+        // user: this.props.enemies.userNameKey,
+        // created_at: new Date(this.props.enemies.date),
+        // message: this.state.message,
+        // message_html: "",
+        id: post_id,
+      }),
+    })
+      .then((response) => {
+        // console.log(response)
+        return response.text();
+      })
+      .then((res) => {
+        console.log(res);
+        this.fetchPosts();
+
+        console.log('------------------')
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   socialList = () => {
     return this.props.route.params.postData["posts"].map((item) => {
       let time = item.created_at;
       let time1 = time.split("T")[0];
       let time2 = time.split("T")[1];
       let time3 = time2.split(".")[0];
-
-      return (
-        <View style={styles.post} key={item.created_at}>
-          <Text>{item.message}</Text>
-          <Text>
-            - {item.username} @ {time1}//{time3}
-          </Text>
-        </View>
-      );
+      if (item.user == this.props.enemies.userNameKey) {
+        return (
+          <View style={styles.post} key={item.created_at}>
+            <Text style={styles.postMessage}>{item.message}</Text>
+            <Text>- {item.username} </Text>
+            <Text>
+              @ {time1}//{time3}
+            </Text>
+            <TouchableOpacity
+              onPress={() => {
+                this.deletePost(item.id);
+              }}
+            >
+              <Text style={styles.delete}>Delete</Text>
+            </TouchableOpacity>
+          </View>
+        );
+      } else {
+        return (
+          <View style={styles.post} key={item.created_at}>
+            <Text style={styles.postMessage}>{item.message}</Text>
+            <Text>- {item.username} </Text>
+            <Text>
+              @ {time1}//{time3}
+            </Text>
+          </View>
+        );
+      }
     });
   };
 
@@ -175,6 +226,10 @@ const styles = StyleSheet.create({
   },
   post: {
     flex: 1,
+    alignContent: "center",
+    borderColor: "#1C3252",
+    borderWidth: 1,
+    padding: 10,
   },
   flex1: {
     flex: 1,
@@ -193,17 +248,22 @@ const styles = StyleSheet.create({
   },
   textAll: {
     color: "#FFFFFF",
-
   },
   homeButtonView: {
     flex: 1,
-    justifyContent:'center',
-    alignSelf:'center',
+    justifyContent: "center",
+    alignSelf: "center",
   },
   homeButton: {
     backgroundColor: "#1F3252",
     height: 40,
     justifyContent: "center",
+  },
+  delete: {
+    color: "red",
+  },
+  postMessage: {
+    fontWeight: "bold",
   },
 });
 
