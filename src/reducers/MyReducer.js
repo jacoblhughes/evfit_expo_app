@@ -15,8 +15,8 @@ const INITIAL_STATE = {
   inputPassword: null,
   recentBlog: null,
   getPosts: null,
-  internet: 'http://40ebfd7ba25d.ngrok.io',
-  // internet: 'https://evidentfitness.com',
+  // internet: 'http://40ebfd7ba25d.ngrok.io',
+  internet: 'https://evidentfitness.com',
   getHabits: null,
   setEmail: null,
 };
