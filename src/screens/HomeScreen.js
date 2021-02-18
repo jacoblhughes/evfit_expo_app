@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   FlatList,
+  KeyboardAvoidingView,
 } from "react-native";
 import { connect } from "react-redux";
 import { setTokenAction } from "../actions/MyActions.js";
@@ -51,6 +52,7 @@ class HomeScreen extends React.Component {
       this
     );
     this.blogList = this.blogList.bind(this);
+    this.habitList = this.habitList.bind(this);
     this.fetchBlog = this.fetchBlog.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
     // this.postList = this.postList.bind(this);
@@ -170,12 +172,11 @@ class HomeScreen extends React.Component {
               });
             }}
           >
-            <Text style={styles.textAll} >{item.name}</Text>
+            <Text style={styles.textAll}>{item.name}</Text>
           </TouchableOpacity>
         </View>
       );
     });
-
   };
 
   retrieveToken = async () => {
@@ -333,8 +334,7 @@ class HomeScreen extends React.Component {
         console.log(response.error);
         return response.json();
       })
-      .then((res) => {
-      })
+      .then((res) => {})
       .catch((error) => {
         console.log("this is the deal" + error.message + error.body);
       });
@@ -348,7 +348,10 @@ class HomeScreen extends React.Component {
       this.props.enemies.loading === false
     ) {
       return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}
+        >
           <View style={styles.logoView}>
             <Image
               style={styles.logo}
@@ -395,7 +398,7 @@ class HomeScreen extends React.Component {
               </View>
             </TouchableOpacity>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       );
     } else if (
       this.props.enemies.token !== null &&
@@ -489,25 +492,22 @@ const styles = StyleSheet.create({
   blogView: {
     flex: 3,
     justifyContent: "center",
-    backgroundColor: '#AE4828',
+    backgroundColor: "#AE4828",
     alignItems: "stretch",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor : '#00132F',
+    borderColor: "#00132F",
     paddingHorizontal: 10,
-
-
   },
   socialView: {
     flex: 3,
     justifyContent: "center",
-    backgroundColor: '#AE4828',
+    backgroundColor: "#AE4828",
     alignItems: "stretch",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor : '#00132F',
+    borderColor: "#00132F",
     paddingHorizontal: 10,
-
   },
   inputView: {
     flex: 2,
@@ -515,16 +515,14 @@ const styles = StyleSheet.create({
   },
   postTitleView: {
     flex: 1,
-    backgroundColor: '#C18527',
-    justifyContent: 'center',
+    backgroundColor: "#C18527",
+    justifyContent: "center",
     paddingHorizontal: 20,
-
   },
   postTitle: {
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    color: '#00132F',
-    
+    justifyContent: "center",
+    fontWeight: "bold",
+    color: "#00132F",
   },
   homeButtonView: {
     alignItems: "center",
@@ -537,8 +535,7 @@ const styles = StyleSheet.create({
   postView: {
     flex: 3,
     justifyContent: "space-around",
-    backgroundColor: '#AE4828',
-
+    backgroundColor: "#AE4828",
   },
   post: {
     flex: 1,
@@ -556,7 +553,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textAll: {
-    color: "#FFFFFF"
+    color: "#FFFFFF",
   },
 });
 

@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { connect } from "react-redux";
 import { setTokenAction } from "../actions/MyActions.js";
@@ -109,7 +110,7 @@ class SocialScreen extends React.Component {
         console.log(res);
         this.fetchPosts();
 
-        console.log('------------------')
+        console.log("------------------");
       })
       .catch((error) => {
         console.log(error);
@@ -180,35 +181,36 @@ class SocialScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.flex1} contentContainerStyle={{ flexGrow: 1 }}>
-        <View style={styles.container}>
-          <View style={styles.scrolls}>
-            <ScrollView>{this.socialList()}</ScrollView>
-          </View>
-          <View style={styles.message_area}>
-            <TextInput
-              style={styles.text_input}
-              placeholder="message"
-              value={this.state.message}
-              onChangeText={(text) => this.setState({ message: text })}
-            ></TextInput>
-
-            <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                this.postMessage();
-                this.setState({
-                  message: "",
-                });
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Submit</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+      <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "padding"} keyboardVerticalOffset = {Platform.OS === 'ios' ? 60 : 0}
+      style={styles.container}
+      >
+        <View style={styles.scrolls}>
+          <ScrollView>{this.socialList()}</ScrollView>
         </View>
-      </View>
+        <View style={styles.message_area}>
+          <TextInput
+            style={styles.text_input}
+            placeholder="message"
+            value={this.state.message}
+            onChangeText={(text) => this.setState({ message: text })}
+          ></TextInput>
+
+          <TouchableOpacity
+            style={styles.homeButton}
+            onPress={() => {
+              this.postMessage();
+              this.setState({
+                message: "",
+              });
+            }}
+          >
+            <View style={styles.homeButtonView}>
+              <Text style={styles.textAll}>Submit</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
