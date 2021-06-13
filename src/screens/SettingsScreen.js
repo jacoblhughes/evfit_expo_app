@@ -151,10 +151,24 @@ class SettingsScreen extends React.Component {
         lightColor: "#FF231F7C",
       });
     }
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Work That Habit! 📬",
+        body: 'Log your progress',
+      },
+      trigger: { 
+        hour:18,
+        minute: 0,
+        repeats: true,
+        },
+    });
   };
 
   unregisterForPushNotificationsAsync = async () => {
     console.log("unsettings here");
+
+    await Notifications.cancelAllScheduledNotificationsAsync();
     await this.props.unsetExpoAction();
     this.postExpoToken();
   };
@@ -184,7 +198,7 @@ class SettingsScreen extends React.Component {
               }}
             >
               <View>
-                <Text style={styles.textAll}>Accept Notifications</Text>
+                <Text style={styles.textAll}>Accept Notifications at 6:00 PM</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -198,7 +212,6 @@ class SettingsScreen extends React.Component {
               style={styles.logo}
               source={require("../../src/images/logo.png")}
             />
-            <Text>SETTINGS</Text>
           </View>
 
           <View style={styles.buttonView}>
@@ -210,7 +223,7 @@ class SettingsScreen extends React.Component {
               }}
             >
               <View>
-                <Text style={styles.textAll}>Decline Notifications</Text>
+                <Text style={styles.textAll}>Decline Notifications at 6:00 PM</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -249,6 +262,9 @@ const styles = StyleSheet.create({
   unregistered: {
     backgroundColor: "lightgreen",
   },
+  textAll:{
+    fontSize: 20,
+  }
 });
 
 const mapStateToProps = (state) => {
