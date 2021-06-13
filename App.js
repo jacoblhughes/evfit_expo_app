@@ -11,6 +11,7 @@ import WelcomeScreen from "./src/screens/WelcomeScreen";
 import BlogScreen from "./src/screens/BlogScreen";
 import SocialScreen from "./src/screens/SocialScreen";
 import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
+import SettingsScreen from "./src/screens/SettingsScreen";
 
 // import LoadingScreen from './src/screens/LoadingScreen';
 import ReactDOM from "react-dom";
@@ -65,6 +66,21 @@ function HomeSec() {
       <Stack.Screen
         name="ForgotPassword"
         component={ForgotPasswordScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
         options={{
           headerShown: true,
           headerTintColor: "#FFFFFF",

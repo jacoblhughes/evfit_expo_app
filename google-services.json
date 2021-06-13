@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "531294852107",
+    "project_id": "evidentfitness",
+    "storage_bucket": "evidentfitness.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:531294852107:android:13bbd21898faa44d78a30e",
+        "android_client_info": {
+          "package_name": "com.jacoblhughes.evidentfitnessapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "531294852107-nneiip0vhdpcf0p594gnb8digub043fp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcS5CPLXEVL6G6vqA47sQM2n4V191dCuI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "531294852107-nneiip0vhdpcf0p594gnb8digub043fp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

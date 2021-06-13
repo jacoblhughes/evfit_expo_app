@@ -23,7 +23,10 @@ class DashboardScreen extends React.Component {
     this.submitNo = this.submitNo.bind(this);
     this.habitCheck = this.habitCheck.bind(this);
     this.state = {lastLoggedDay: new Date(this.props.enemies.lastPost).toISOString().split("T")[0]}
+
   }
+
+  
 
   submitYes = () => {
     fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
@@ -124,9 +127,7 @@ class DashboardScreen extends React.Component {
             source={require("../../src/images/logo.png")}
           />
           <View style={styles.textView}>
-            <Text style={styles.text}>
-              Logged in as: {this.props.enemies.userName}
-            </Text>
+
             <Text style={styles.text}>
               Your habit: {this.props.enemies.userHabit}
             </Text>

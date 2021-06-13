@@ -56,8 +56,9 @@ class HomeScreen extends React.Component {
     this.fetchBlog = this.fetchBlog.bind(this);
     this.fetchPosts = this.fetchPosts.bind(this);
     // this.postList = this.postList.bind(this);
-    this.postMessage = this.postMessage.bind(this);
+    // this.postMessage = this.postMessage.bind(this);
     this.fetchHabits = this.fetchHabits.bind(this);
+
   }
   componentDidUpdate(prevProps) {
     // console.log("thisipdated");
@@ -73,6 +74,7 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
+
   }
   _storeAsyncStorageTokenandLogout = async (value) => {
     try {
@@ -134,6 +136,31 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getHabitsAction(res);
+          // if (this.props.enemies.getPosts !== null) {
+          //   this.props.loadingAction(false);
+          // }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchBlog = async () => {
+    try {
+      await fetch(`${this.props.enemies.internet}/api/blog_posts/`, {
+        method: "GET",
+        headers: {
+          // "Accept": "application/json",
+          "Content-Type": "application/json",
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: "Token " + this.props.enemies.token,
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((res) => {
+          this.props.getRecentBlogAction(res);
           // if (this.props.enemies.getPosts !== null) {
           //   this.props.loadingAction(false);
           // }
@@ -209,10 +236,12 @@ class HomeScreen extends React.Component {
           this.props.setTokenAction(res["key"]);
           Promise.all[
             (this._storeAsyncStorageToken(res["key"]),
+            
             this.fetchProfile(),
+            this.fetchBlog(),
+
             this.habitCheck(),
             this.fetchPosts(),
-            this.fetchBlog(),
             this.fetchHabits())
           ];
           this.props.loadingAction(false);
@@ -225,30 +254,7 @@ class HomeScreen extends React.Component {
     }
   };
 
-  fetchBlog = async () => {
-    try {
-      await fetch(`${this.props.enemies.internet}/api/blog_posts/`, {
-        method: "GET",
-        headers: {
-          // "Accept": "application/json",
-          "Content-Type": "application/json",
-          // 'X-Requested-With': 'XMLHttpRequest',
-          Authorization: "Token " + this.props.enemies.token,
-        },
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then((res) => {
-          this.props.getRecentBlogAction(res);
-          // if (this.props.enemies.getPosts !== null) {
-          //   this.props.loadingAction(false);
-          // }
-        });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   fetchProfile = async () => {
     try {
@@ -262,6 +268,7 @@ class HomeScreen extends React.Component {
         },
       })
         .then((response) => {
+          
           return response.json();
         })
         .then((res) => {
@@ -296,6 +303,7 @@ class HomeScreen extends React.Component {
   };
 
   blogList = () => {
+
     return this.props.enemies.recentBlog.map((item) => {
       return (
         <View style={styles.blogView} key={item.id}>
@@ -309,35 +317,6 @@ class HomeScreen extends React.Component {
         </View>
       );
     });
-  };
-
-  postMessage = () => {
-    fetch(`${this.props.enemies.internet}/api/habit_posts/`, {
-      method: "POST",
-      headers: {
-        // "Accept": "application/json",
-        "Content-Type": "application/json",
-        // 'X-Requested-With': 'XMLHttpRequest',
-        Authorization: "Token " + this.props.enemies.token,
-      },
-      body: JSON.stringify({
-        user: 1,
-        created_at: new Date(),
-        message: "this.state.message",
-        message_html: "",
-        habit: 1,
-        habit_name: "Drink Only Clear Liquids",
-        username: "jacoblhughes",
-      }),
-    })
-      .then((response) => {
-        console.log(response.error);
-        return response.json();
-      })
-      .then((res) => {})
-      .catch((error) => {
-        console.log("this is the deal" + error.message + error.body);
-      });
   };
 
   render() {
@@ -429,6 +408,17 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Habit Check-In</Text>
               </View>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.navigation.navigate("Settings");
+
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Settings</Text>
+              </View>
+            </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.homeButton}
@@ -448,7 +438,7 @@ class HomeScreen extends React.Component {
               }}
             >
               <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Exit</Text>
+                <Text style={styles.textAll}>Exit App</Text>
               </View>
             </TouchableOpacity>
           </View>

@@ -56,3 +56,18 @@ export const setEmailAction = (email_for_password) => ({
   type: "SETEMAIL",
   payload: email_for_password,
 });
+
+export const getExpoAction = (expo_token) => ({
+  type: "GETEXPO",
+  payload: expo_token,
+});
+
+export const setExpoAction = (expo_token) => ({
+  type: "SETEXPO",
+  payload: expo_token,
+});
+
+export const unsetExpoAction = (nothing_here) => ({
+  type: "UNSETEXPO",
+  payload: nothing_here,
+});
