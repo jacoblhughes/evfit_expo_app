@@ -215,7 +215,7 @@ class SettingsScreen extends React.Component {
           </View>
 
           <View style={styles.buttonView}>
-            <Text>Logged in as: {this.props.enemies.userName}</Text>
+            {/* <Text>Logged in as: {this.props.enemies.userName}</Text> */}
             <TouchableOpacity
               style={styles.registered}
               onPress={() => {
@@ -258,9 +258,18 @@ const styles = StyleSheet.create({
   },
   registered: {
     backgroundColor: "red",
+    borderRadius: 5,
+    margin: 5,
+    padding: 5,
+
   },
   unregistered: {
     backgroundColor: "lightgreen",
+    borderRadius: 5,
+    margin: 5,
+    padding: 5,
+
+    
   },
   textAll:{
     fontSize: 20,
