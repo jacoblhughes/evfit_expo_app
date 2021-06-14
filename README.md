@@ -4,8 +4,8 @@ This is a simple app that allows users of evidentfitness.com to log their daily 
 
 App Functionality:
 
-06/13/2021
-Logon or Logoff
-Track habit (Such as Eat Until 80% Full)
-Allow or disallow notifications
-Post to evidentfitness.com habit forums (post, delete)
+06/13/2021<br />
+Logon or Logoff<br />
+Track habit (Such as Eat Until 80% Full)<br />
+Allow or disallow notifications<br />
+Post to evidentfitness.com habit forums (post, delete)<br />
