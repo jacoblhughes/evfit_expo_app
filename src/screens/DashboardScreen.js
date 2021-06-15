@@ -22,14 +22,15 @@ class DashboardScreen extends React.Component {
     this.submitYes = this.submitYes.bind(this);
     this.submitNo = this.submitNo.bind(this);
     this.habitCheck = this.habitCheck.bind(this);
-    this.state = {lastLoggedDay: new Date(this.props.enemies.lastPost).toISOString().split("T")[0]}
-
+    this.state = {
+      lastLoggedDay: new Date(this.props.enemies.lastPost)
+        .toISOString()
+        .split("T")[0],
+    };
   }
 
-  
-
-  submitYes = () => {
-    fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
+  submitYes = async () => {
+    await fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
       method: "POST",
       headers: {
         // "Accept": "application/json",
@@ -51,11 +52,16 @@ class DashboardScreen extends React.Component {
       })
       .then((res) => {
         this.habitCheck();
+
+        
       });
+      this.setState({lastLoggedDay: new Date(this.props.enemies.date - this.props.enemies.todayOffset)
+        .toISOString()
+        .split("T")[0], })
   };
 
-  submitNo = () => {
-    fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
+  submitNo = async () => {
+    await fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
       method: "POST",
       headers: {
         // "Accept": "application/json",
@@ -77,7 +83,12 @@ class DashboardScreen extends React.Component {
       })
       .then((res) => {
         this.habitCheck();
+
+
       });
+      this.setState({lastLoggedDay: new Date(this.props.enemies.date - this.props.enemies.todayOffset)
+        .toISOString()
+        .split("T")[0], })
   };
 
   habitCheck = () => {
@@ -105,12 +116,14 @@ class DashboardScreen extends React.Component {
   componentDidMount() {
     this.props.authorizeAction(true);
     this.props.loadingAction(false);
+    Promise.all[this.habitCheck()];
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.props.enemies.auth == false) {
       this.props.navigation.replace("HomeSec");
     }
+
   }
 
   render() {
@@ -126,8 +139,11 @@ class DashboardScreen extends React.Component {
             style={styles.logo}
             source={require("../../src/images/logo.png")}
           />
+          
           <View style={styles.textView}>
-
+          <Text style={styles.text}>
+              Logged in as: {this.props.enemies.userName}
+            </Text>
             <Text style={styles.text}>
               Your habit: {this.props.enemies.userHabit}
             </Text>
@@ -158,7 +174,7 @@ class DashboardScreen extends React.Component {
                 <Text style={styles.textAll}>No</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
                 this.props.navigation.goBack();
@@ -167,8 +183,17 @@ class DashboardScreen extends React.Component {
               <View style={styles.homeButtonView}>
                 <Text style={styles.textAll}>Back</Text>
               </View>
-            </TouchableOpacity>
-
+            </TouchableOpacity> */}
+            {/* <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                console.log(this.state);
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Log</Text>
+              </View>
+            </TouchableOpacity> */}
           </View>
         </View>
       );
@@ -200,9 +225,19 @@ class DashboardScreen extends React.Component {
               }}
             >
               <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Back</Text>
+                <Text style={styles.textAll}>Go Back</Text>
               </View>
             </TouchableOpacity>
+            {/* <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                console.log(this.state);
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Log</Text>
+              </View>
+            </TouchableOpacity> */}
           </View>
         </View>
       );
@@ -224,8 +259,7 @@ const styles = StyleSheet.create({
   buttonView: {
     flex: 1,
     justifyContent: "space-evenly",
-    alignItems:'stretch',
-
+    alignItems: "stretch",
   },
   button: {
     flex: 1,
@@ -237,7 +271,7 @@ const styles = StyleSheet.create({
   },
   textAll: {
     color: "#FFFFFF",
-    alignSelf: 'center',
+    alignSelf: "center",
   },
 });
 

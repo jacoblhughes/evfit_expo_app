@@ -4,7 +4,7 @@
     "slug": "evidentfitnessapp",
     "privacy": "unlisted",
     "orientation": "portrait",
-    "version": "3.2.7",
+    "version": "3.2.8",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
@@ -18,7 +18,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "7",
+      "buildNumber": "8",
       "supportsTablet": true,
       "bundleIdentifier": "com.jacoblhughes.evidentfitnessapp"
     },

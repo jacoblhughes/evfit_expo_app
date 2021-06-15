@@ -48,9 +48,8 @@ class HomeScreen extends React.Component {
     this.retrieveToken = this.retrieveToken.bind(this);
     this.habitCheck = this.habitCheck.bind(this);
     this._storeAsyncStorageToken = this._storeAsyncStorageToken.bind(this);
-    this._storeAsyncStorageTokenandLogout = this._storeAsyncStorageTokenandLogout.bind(
-      this
-    );
+    this._storeAsyncStorageTokenandLogout =
+      this._storeAsyncStorageTokenandLogout.bind(this);
     this.blogList = this.blogList.bind(this);
     this.habitList = this.habitList.bind(this);
     this.fetchBlog = this.fetchBlog.bind(this);
@@ -58,7 +57,6 @@ class HomeScreen extends React.Component {
     // this.postList = this.postList.bind(this);
     // this.postMessage = this.postMessage.bind(this);
     this.fetchHabits = this.fetchHabits.bind(this);
-
   }
   componentDidUpdate(prevProps) {
     // console.log("thisipdated");
@@ -74,7 +72,8 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
-
+    this.fetchProfile();
+    this.habitCheck();
   }
   _storeAsyncStorageTokenandLogout = async (value) => {
     try {
@@ -236,10 +235,8 @@ class HomeScreen extends React.Component {
           this.props.setTokenAction(res["key"]);
           Promise.all[
             (this._storeAsyncStorageToken(res["key"]),
-            
             this.fetchProfile(),
             this.fetchBlog(),
-
             this.habitCheck(),
             this.fetchPosts(),
             this.fetchHabits())
@@ -254,8 +251,6 @@ class HomeScreen extends React.Component {
     }
   };
 
-
-
   fetchProfile = async () => {
     try {
       await fetch(`${this.props.enemies.internet}/api/profile/`, {
@@ -268,7 +263,6 @@ class HomeScreen extends React.Component {
         },
       })
         .then((response) => {
-          
           return response.json();
         })
         .then((res) => {
@@ -303,7 +297,6 @@ class HomeScreen extends React.Component {
   };
 
   blogList = () => {
-
     return this.props.enemies.recentBlog.map((item) => {
       return (
         <View style={styles.blogView} key={item.id}>
@@ -343,13 +336,16 @@ class HomeScreen extends React.Component {
               placeholder="Username"
               label="Username"
               autoCompleteType="username"
+              autoCapitalize = 'none'
               onChangeText={(text) => this.props.setUsernameAction(text)}
             />
-            <PasswordInputText
+            <TextInput
               style={styles.password}
               getRef={(input) => (this.input = input)}
               autoCompleteType="password"
               placeholder="Password"
+              secureTextEntry = {true}
+              autoCapitalize = 'none'
               onChangeText={(text) => this.props.setPasswordAction(text)}
             />
           </View>
@@ -393,6 +389,7 @@ class HomeScreen extends React.Component {
               style={styles.logo}
               source={require("../../src/images/logo.png")}
             />
+            <Text>Logged in as: {this.props.enemies.userName}</Text>
           </View>
 
           <View style={styles.buttonView}>
@@ -412,7 +409,6 @@ class HomeScreen extends React.Component {
               style={styles.homeButton}
               onPress={() => {
                 this.props.navigation.navigate("Settings");
-
               }}
             >
               <View style={styles.homeButtonView}>
@@ -430,8 +426,18 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Logout</Text>
               </View>
             </TouchableOpacity>
+            {/* <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                console.log(this.props.enemies);
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Log</Text>
+              </View>
+            </TouchableOpacity> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
                 BackHandler.exitApp();
@@ -440,7 +446,7 @@ class HomeScreen extends React.Component {
               <View style={styles.homeButtonView}>
                 <Text style={styles.textAll}>Exit App</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.postTitleView}>
             <Text style={styles.postTitle}>

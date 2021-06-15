@@ -113,9 +113,19 @@ function DashboardSec() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Dashboard"
+        name="Habit Check-In"
         component={DashboardScreen}
-        options={{ headerShown: false }}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
       />
     </Stack.Navigator>
   );
