@@ -122,6 +122,7 @@ class SettingsScreen extends React.Component {
   };
 
   registerForPushNotificationsAsync = async () => {
+    
     console.log("settings here");
     if (Constants.isDevice) {
       const { status: existingStatus } =
@@ -151,6 +152,8 @@ class SettingsScreen extends React.Component {
         lightColor: "#FF231F7C",
       });
     }
+    
+    await Notifications.cancelAllScheduledNotificationsAsync();
 
     await Notifications.scheduleNotificationAsync({
       content: {
