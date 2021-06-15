@@ -123,6 +123,7 @@ class DashboardScreen extends React.Component {
     if (this.props.enemies.auth == false) {
       this.props.navigation.replace("HomeSec");
     }
+    Promise.all[this.habitCheck()];
 
   }
 
@@ -216,7 +217,7 @@ class DashboardScreen extends React.Component {
             </Text>
           </View>
           <View style={styles.buttonView}>
-            <Text style={styles.text}>You already logged!:</Text>
+            <Text style={styles.text}>Congratulations, you already logged!:</Text>
 
             <TouchableOpacity
               style={styles.homeButton}
@@ -231,7 +232,7 @@ class DashboardScreen extends React.Component {
             {/* <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
-                console.log(this.state);
+                console.log(this.props.enemies);
               }}
             >
               <View style={styles.homeButtonView}>
@@ -271,6 +272,9 @@ const styles = StyleSheet.create({
   },
   textAll: {
     color: "#FFFFFF",
+    alignSelf: "center",
+  },
+  text: {
     alignSelf: "center",
   },
 });

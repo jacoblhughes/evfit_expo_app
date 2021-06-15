@@ -75,6 +75,12 @@ class HomeScreen extends React.Component {
     this.fetchProfile();
     this.habitCheck();
   }
+
+  componentDidUpdate() {
+
+    this.habitCheck();
+  }
+
   _storeAsyncStorageTokenandLogout = async (value) => {
     try {
       await AsyncStorage.removeItem("@token");
