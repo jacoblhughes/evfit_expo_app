@@ -23,7 +23,7 @@
       "bundleIdentifier": "com.jacoblhughes.evidentfitnessapp"
     },
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./assets/shapes.png",
         "backgroundColor": "#FFFFFF"
