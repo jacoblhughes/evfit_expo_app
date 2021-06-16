@@ -16,7 +16,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { BackHandler } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-class DashboardScreen extends React.Component {
+class HabitScreen extends React.Component {
   constructor(props) {
     super(props);
     this.submitYes = this.submitYes.bind(this);
@@ -153,7 +153,7 @@ class DashboardScreen extends React.Component {
             </Text>
           </View>
           <View style={styles.buttonView}>
-            <Text style={styles.text}>Log your habit for the day!:</Text>
+            <Text style={styles.text}>Please log your habit for the day!</Text>
 
             <TouchableOpacity
               style={styles.homeButton}
@@ -217,7 +217,7 @@ class DashboardScreen extends React.Component {
             </Text>
           </View>
           <View style={styles.buttonView}>
-            <Text style={styles.text}>Congratulations, you already logged!:</Text>
+            <Text style={styles.text}>Congratulations, you already logged!</Text>
 
             <TouchableOpacity
               style={styles.homeButton}
@@ -297,4 +297,4 @@ const mapDispatchToProps = (dispatch) =>
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(DashboardScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(HabitScreen);

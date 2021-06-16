@@ -237,7 +237,6 @@ class HomeScreen extends React.Component {
           // this.props.updateProfileInfoAction(res[0]);
           // this.props.authorizeAction(true);
 
-          // this.props.navigation.replace("Dashboard");
           this.props.setTokenAction(res["key"]);
           Promise.all[
             (this._storeAsyncStorageToken(res["key"]),
@@ -367,7 +366,7 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Login</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
                 this.props.loadingAction(true);
@@ -377,7 +376,7 @@ class HomeScreen extends React.Component {
               <View style={styles.homeButtonView}>
                 <Text style={styles.textAll}>Forgot Password</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </KeyboardAvoidingView>
       );
@@ -404,11 +403,21 @@ class HomeScreen extends React.Component {
               onPress={() => {
                 this.props.loadingAction(true);
                 Promise.all[(this.fetchProfile(), this.habitCheck())];
-                this.props.navigation.navigate("DashboardSec");
+                this.props.navigation.navigate("HabitSec");
               }}
             >
               <View style={styles.homeButtonView}>
                 <Text style={styles.textAll}>Habit Check-In</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.navigation.navigate("ToolsSec");
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Exercise Tools</Text>
               </View>
             </TouchableOpacity>
             <TouchableOpacity
@@ -478,7 +487,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
   },
   logoView: {
-    flex: 5,
+    flex: 4,
     alignItems: "center",
   },
   logo: {
@@ -486,13 +495,13 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   buttonView: {
-    flex: 3,
+    flex: 4,
     width: 200,
     justifyContent: "space-evenly",
     alignSelf: "center",
   },
   blogView: {
-    flex: 3,
+    flex: 5,
     justifyContent: "center",
     backgroundColor: "#AE4828",
     alignItems: "stretch",
@@ -502,7 +511,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   socialView: {
-    flex: 3,
+    flex: 5,
     justifyContent: "center",
     backgroundColor: "#AE4828",
     alignItems: "stretch",

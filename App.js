@@ -6,12 +6,14 @@ import { createStore, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import HomeScreen from "./src/screens/HomeScreen";
-import DashboardScreen from "./src/screens/DashboardScreen";
+import HabitScreen from "./src/screens/HabitScreen";
 import WelcomeScreen from "./src/screens/WelcomeScreen";
 import BlogScreen from "./src/screens/BlogScreen";
 import SocialScreen from "./src/screens/SocialScreen";
 import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
+import ToolsScreen from "./src/screens/ToolsScreen";
+import StopWatchScreen from "./src/screens/StopWatchScreen";
 
 // import LoadingScreen from './src/screens/LoadingScreen';
 import ReactDOM from "react-dom";
@@ -109,12 +111,12 @@ function WelcomeSec() {
   );
 }
 
-function DashboardSec() {
+function HabitSec() {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="Habit Check-In"
-        component={DashboardScreen}
+        component={HabitScreen}
         options={{
           headerShown: true,
           headerTintColor: "#FFFFFF",
@@ -124,6 +126,44 @@ function DashboardSec() {
           headerTitleStyle: {
             textAlign: "center",
             alignSelf: "flex-start",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function ToolsSec() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Workout Tools"
+        component={ToolsScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Stop Watch"
+        component={StopWatchScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+            fontSize: 10,
           },
         }}
       />
@@ -147,9 +187,14 @@ function App() {
             component={WelcomeSec}
           />
           <Stack.Screen
-            name="DashboardSec"
+            name="HabitSec"
             options={{ headerShown: false }}
-            component={DashboardSec}
+            component={HabitSec}
+          />
+          <Stack.Screen
+            name="ToolsSec"
+            options={{ headerShown: false }}
+            component={ToolsSec}
           />
         </Stack.Navigator>
       </NavigationContainer>
