@@ -121,7 +121,6 @@ class WelcomeScreen extends React.Component {
   };
 
   _retrieveAsyncStorageToken = async () => {
-    console.log("here");
     try {
       const value = await AsyncStorage.getItem("@token");
       if (value !== null && value !== "") {
