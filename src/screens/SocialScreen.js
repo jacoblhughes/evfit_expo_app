@@ -8,6 +8,7 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
 import { setTokenAction } from "../actions/MyActions.js";
@@ -19,7 +20,7 @@ import { checkLastPostAction } from "../actions/MyActions.js";
 import { getRecentBlogAction } from "../actions/MyActions.js";
 import { setPasswordAction } from "../actions/MyActions.js";
 import { getPostsAction } from "../actions/MyActions.js";
-import { TouchableOpacity } from "react-native-gesture-handler";
+// import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { bindActionCreators } from "redux";
 
@@ -129,7 +130,7 @@ class SocialScreen extends React.Component {
             <Text style={styles.postMessage}>{item.message}</Text>
             <Text>- {item.username} </Text>
             <Text>
-              @ {time1}//{time3}
+              @ {time1}//{time3.slice(0, 5)}
             </Text>
             <TouchableOpacity
               onPress={() => {
@@ -182,49 +183,50 @@ class SocialScreen extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "padding"} keyboardVerticalOffset = {Platform.OS === 'ios' ? 60 : 0}
-      style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : "null"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+        style={styles.container}
       >
-        <View style={styles.scrolls}>
-          <ScrollView>{this.socialList()}</ScrollView>
-        </View>
-        <View style={styles.message_area}>
-          <TextInput
-            style={styles.text_input}
-            placeholder="message"
-            value={this.state.message}
-            onChangeText={(text) => this.setState({ message: text })}
-          ></TextInput>
+        <View style={styles.social_area}>
+        <ScrollView >{this.socialList()}</ScrollView>
 
-          <TouchableOpacity
-            style={styles.homeButton}
-            onPress={() => {
-              this.postMessage();
-              this.setState({
-                message: "",
-              });
-            }}
-          >
-            <View style={styles.homeButtonView}>
-              <Text style={styles.textAll}>Submit</Text>
-            </View>
-          </TouchableOpacity>
         </View>
+
+        <TextInput
+          style={styles.text_input}
+          placeholder="message"
+          value={this.state.message}
+          onChangeText={(text) => this.setState({ message: text })}
+        ></TextInput>
+
+        <TouchableOpacity
+          style={styles.submitButtonTouchable}
+          onPress={() => {
+            this.postMessage();
+            this.setState({
+              message: "",
+            });
+          }}
+        >
+          <View
+          // style={styles.submitButton}
+          >
+            <Text style={styles.textAll}>Submit</Text>
+          </View>
+        </TouchableOpacity>
       </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  scrolls: {
-    flex: 10,
-  },
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF",
-    justifyContent: "space-around",
     borderWidth: 5,
     borderColor: "white",
+    // flexGrow:1,
+    height:'100%',
   },
   post: {
     flex: 1,
@@ -233,33 +235,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
-  flex1: {
-    flex: 1,
+  social_area: {
+    flex: 6,
   },
+
   text_input: {
     flex: 1,
     borderColor: "black",
     borderWidth: 1,
   },
-  title: {
+  submitButtonTouchable: {
     flex: 1,
-  },
-  message_area: {
-    flex: 3,
-    justifyContent: "space-around",
+    backgroundColor: "#1F3252",
+    justifyContent: "center",
   },
   textAll: {
     color: "#FFFFFF",
-  },
-  homeButtonView: {
-    flex: 1,
-    justifyContent: "center",
-    alignSelf: "center",
-  },
-  homeButton: {
-    backgroundColor: "#1F3252",
-    height: 40,
-    justifyContent: "center",
   },
   delete: {
     color: "red",

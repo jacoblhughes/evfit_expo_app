@@ -14,6 +14,7 @@ import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import ToolsScreen from "./src/screens/ToolsScreen";
 import StopWatchScreen from "./src/screens/StopWatchScreen";
+import WorkoutLogScreen from "./src/screens/WorkoutLogScreen";
 
 // import LoadingScreen from './src/screens/LoadingScreen';
 import ReactDOM from "react-dom";
@@ -171,6 +172,29 @@ function ToolsSec() {
   );
 }
 
+function WorkoutLogSec() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Workout Log"
+        component={ToolsScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
+      />
+
+    </Stack.Navigator>
+  );
+}
+
 function App() {
   return (
     <Provider store={store}>
@@ -195,6 +219,11 @@ function App() {
             name="ToolsSec"
             options={{ headerShown: false }}
             component={ToolsSec}
+          />
+                    <Stack.Screen
+            name="WorkoutLogSec"
+            options={{ headerShown: false }}
+            component={WorkoutLogSec}
           />
         </Stack.Navigator>
       </NavigationContainer>
