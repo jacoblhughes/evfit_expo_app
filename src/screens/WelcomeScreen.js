@@ -42,7 +42,7 @@ class WelcomeScreen extends React.Component {
 
   componentDidMount() {
     this._retrieveAsyncStorageToken();
-    // LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
+    LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
   }
 
   fetchBlog = async () => {

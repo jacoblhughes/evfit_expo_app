@@ -71,7 +71,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    // LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
+    LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
     this.fetchProfile();
     this.habitCheck();
   }

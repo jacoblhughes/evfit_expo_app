@@ -118,17 +118,19 @@ class SocialScreen extends React.Component {
         return (
           <View style={styles.post} key={item.created_at}>
             <Text style={styles.postMessage}>{item.message}</Text>
-            <Text>- {item.username} </Text>
             <Text>
-              @ {time1}//{time3.slice(0, 5)}
+              - {item.username} @ {time1}//{time3.slice(0, 5)}
             </Text>
-            <TouchableOpacity
-              onPress={() => {
-                this.deletePost(item.id);
-              }}
-            >
-              <Text style={styles.delete}>Delete</Text>
-            </TouchableOpacity>
+            <View style={styles.deleteView}>
+              <TouchableOpacity
+                style={styles.deleteTouchable}
+                onPress={() => {
+                  this.deletePost(item.id);
+                }}
+              >
+                <Text style={styles.delete}>Delete</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         );
       } else {
@@ -178,8 +180,7 @@ class SocialScreen extends React.Component {
         style={styles.container}
       >
         <View style={styles.social_area}>
-        <ScrollView >{this.socialList()}</ScrollView>
-
+          <ScrollView>{this.socialList()}</ScrollView>
         </View>
 
         <TextInput
@@ -216,7 +217,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     borderColor: "white",
     // flexGrow:1,
-    height:'100%',
+    height: "100%",
   },
   post: {
     flex: 1,
@@ -247,6 +248,9 @@ const styles = StyleSheet.create({
   },
   postMessage: {
     fontWeight: "bold",
+  },
+  deleteView: {
+    alignItems: "flex-start",
   },
 });
 

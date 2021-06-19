@@ -67,7 +67,7 @@ class ToolsScreen extends React.Component {
           <TouchableOpacity
             style={styles.homeButton}
             onPress={() => {
-              this.props.navigation.navigate("HabitSec");
+              this.props.navigation.navigate("");
             }}
           >
             <View style={styles.button}>
