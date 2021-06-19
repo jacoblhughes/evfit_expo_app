@@ -3,41 +3,11 @@ import {
   StyleSheet,
   Text,
   View,
-  Button,
-  Image,
-  TextInput,
-  ScrollView,
+  TouchableOpacity
 } from "react-native";
 import { connect } from "react-redux";
-import { setTokenAction } from "../actions/MyActions.js";
-import { loadingAction } from "../actions/MyActions.js";
-import { authorizeAction } from "../actions/MyActions.js";
-import { updateProfileInfoAction } from "../actions/MyActions.js";
-import { setUsernameAction } from "../actions/MyActions.js";
-import { checkLastPostAction } from "../actions/MyActions.js";
-import { getRecentBlogAction } from "../actions/MyActions.js";
-import { setPasswordAction } from "../actions/MyActions.js";
-import { setEmailAction } from "../actions/MyActions.js";
 
-import { getPostsAction } from "../actions/MyActions.js";
-import { TouchableOpacity } from "react-native-gesture-handler";
-
-import { bindActionCreators } from "redux";
-
-import { setExpoAction } from "../actions/MyActions.js";
-import { unsetExpoAction } from "../actions/MyActions.js";
-import { getExpoAction } from "../actions/MyActions.js";
-
-import PasswordInputText from "react-native-hide-show-password-input";
-
-import { LogBox } from "react-native";
-
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FlatList } from "react-native-gesture-handler";
-import RootTagContext from "react-native/Libraries/ReactNative/RootTagContext";
-
-import Constants from "expo-constants";
-import * as Notifications from "expo-notifications";
+import { Stopwatch, Timer } from 'react-native-stopwatch-timer'
 
 // import Loading from "../components/Loading";
 
@@ -92,8 +62,8 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#1F3252",
     height: 40,
-    alignItems: 'center',
-    justifyContent: 'space-around'
+    alignItems: "center",
+    justifyContent: "space-around",
   },
   textAll: {
     color: "#FFFFFF",

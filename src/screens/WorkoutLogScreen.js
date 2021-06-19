@@ -32,12 +32,6 @@ import PasswordInputText from "react-native-hide-show-password-input";
 
 import { LogBox } from "react-native";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FlatList } from "react-native-gesture-handler";
-import RootTagContext from "react-native/Libraries/ReactNative/RootTagContext";
-
-import Constants from "expo-constants";
-import * as Notifications from "expo-notifications";
 
 // import Loading from "../components/Loading";
 

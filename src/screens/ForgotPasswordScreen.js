@@ -24,13 +24,13 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { bindActionCreators } from "redux";
 
-import PasswordInputText from "react-native-hide-show-password-input";
+// import PasswordInputText from "react-native-hide-show-password-input";
 
-import { LogBox } from "react-native";
+// import { LogBox } from "react-native";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FlatList } from "react-native-gesture-handler";
-import RootTagContext from "react-native/Libraries/ReactNative/RootTagContext";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { FlatList } from "react-native-gesture-handler";
+// import RootTagContext from "react-native/Libraries/ReactNative/RootTagContext";
 
 // import Loading from "../components/Loading";
 
