@@ -8,19 +8,17 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
-import { Stopwatch, Timer } from "react-native-stopwatch-timer";
 class StopWatchScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      timerStart: false,
-      stopwatchStart: false,
-      totalDuration: 90000,
-      timerReset: false,
       stopwatchReset: false,
+      stopwatchOn: false,
+      stopwatchStart: 0,
+      stopwatchTime: 0,
     };
-    this.toggleTimer = this.toggleTimer.bind(this);
-    this.resetTimer = this.resetTimer.bind(this);
+    // this.toggleTimer = this.toggleTimer.bind(this);
+    // this.resetTimer = this.resetTimer.bind(this);
     this.toggleStopwatch = this.toggleStopwatch.bind(this);
     this.resetStopwatch = this.resetStopwatch.bind(this);
   }
@@ -30,67 +28,106 @@ class StopWatchScreen extends React.Component {
     // }
   }
 
-  componentDidMount() {}
-
-  toggleTimer() {
-    this.setState({ timerStart: !this.state.timerStart, timerReset: false });
+  componentDidMount() {
+    // console.log(this.state)
   }
 
-  resetTimer() {
-    this.setState({ timerStart: false, timerReset: true });
-  }
+  // toggleTimer() {
+  //   this.setState({ timerStart: !this.state.timerStart, timerReset: false });
+  // }
+
+  // resetTimer() {
+  //   this.setState({ timerStart: false, timerReset: true });
+  // }
 
   toggleStopwatch() {
-    this.setState({
-      stopwatchStart: !this.state.stopwatchStart,
-      stopwatchReset: false,
-    });
+    if (this.state.stopwatchOn == false && this.state.stopwatchTime == 0) {
+      this.setState({
+        stopwatchOn: !this.state.stopwatchOn,
+        stopwatchReset: false,
+        stopwatchTime: this.state.stopwatchTime,
+        stopwatchStart: Date.now() - this.state.stopwatchTime,
+      });
+
+      this.timer = setInterval(() => {
+        this.setState({
+          stopwatchTime: Date.now() - this.state.stopwatchStart,
+        });
+      }, 10);
+    } else if (
+      this.state.stopwatchOn == false &&
+      this.state.stopwatchTime != 0
+    ) {
+      this.setState({
+        stopwatchOn: !this.state.stopwatchOn,
+        stopwatchReset: false,
+        stopwatchTime: this.state.stopwatchTime,
+        stopwatchStart: Date.now() - this.state.stopwatchTime,
+      });
+
+      this.timer = setInterval(() => {
+        this.setState({
+          stopwatchTime: Date.now() - this.state.stopwatchStart,
+        });
+      }, 10);
+    } else {
+      this.setState({
+        stopwatchOn: !this.state.stopwatchOn,
+        stopwatchReset: false,
+        stopwatchTime: this.state.stopwatchTime,
+      });
+      clearInterval(this.timer);
+    }
   }
 
   resetStopwatch() {
-    this.setState({ stopwatchStart: false, stopwatchReset: true });
-  }
+    this.setState({
+      stopwatchReset: true,
+      stopwatchOn: false,
+      stopwatchStart: 0,
+      stopwatchTime: 0,
+    });
 
-  getFormattedTime(time) {
-    this.currentTime = time;
+    clearInterval(this.timer);
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Stopwatch
-          laps
-          msecs
-          start={this.state.stopwatchStart}
-          reset={this.state.stopwatchReset}
-          options={options}
-          getTime={this.getFormattedTime}
-        />
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.toggleStopwatch}
-        >
-          <Text style={styles.buttonText}>{!this.state.stopwatchStart ? "Start" : "Stop"}</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button} onPress={this.resetStopwatch}>
-          <Text style={styles.buttonText}>Reset</Text>
-        </TouchableHighlight>
+        <View style={styles.clockLayout}>
+          <Text style={styles.numbers}>
+            {("0" + (Math.floor(this.state.stopwatchTime / 60000) % 60)).slice(
+              -2
+            )}
+          </Text>
+          <Text style={styles.numbers}>
+            {("0" + (Math.floor(this.state.stopwatchTime / 1000) % 60)).slice(
+              -2
+            )}
+          </Text>
+          <Text style={styles.numbers}>
+            {("0" + (Math.floor(this.state.stopwatchTime / 10) % 100)).slice(
+              -2
+            )}
+          </Text>
+        </View>
+        <View style={styles.buttonLayout}>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.toggleStopwatch}
+          >
+            <Text style={styles.buttonText}>
+              {!this.state.stopwatchOn ? "Start" : "Stop"}
+            </Text>
+          </TouchableHighlight>
 
-        <Timer
-          totalDuration={this.state.totalDuration}
-          msecs
-          start={this.state.timerStart}
-          reset={this.state.timerReset}
-          options={options}
-          handleFinish={handleTimerComplete}
-          getTime={this.getFormattedTime}
-        />
-        <TouchableHighlight style={styles.button} onPress={this.toggleTimer}>
-          <Text style={styles.buttonText}>{!this.state.timerStart ? "Start" : "Stop"}</Text>
-        </TouchableHighlight>
-        <TouchableHighlight style={styles.button} onPress={this.resetTimer}>
-          <Text style={styles.buttonText}>Reset</Text>
-        </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.resetStopwatch}
+          >
+            <Text style={styles.buttonText}>Reset</Text>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -98,40 +135,45 @@ class StopWatchScreen extends React.Component {
 
 const handleTimerComplete = () => alert("custom completion function");
 
-const options = {
-  container: {
-    backgroundColor: '#AA4A2C',
-    paddingTop: 15,
-    paddingBottom: 15,
-    borderRadius: 5,
-  },
-  text: {
-    fontSize: 30,
-    color: '#000000',
-    marginLeft: 20,
-  }
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'space-around',
+    justifyContent: "space-evenly",
   },
   buttonText: {
-    color: '#FFFFFF'
+    color: "#FFFFFF",
   },
   button: {
     backgroundColor: "#1F3252",
-    height: 40,
     alignItems: "center",
-    justifyContent: 'space-evenly'
+    height: 40,
+    justifyContent: "space-evenly",
   },
   text: {
     fontSize: 30,
-    color: '#FFF',
-    marginLeft: 7,
-  }
+    color: "#FFF",
+  },
+  clockLayout: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  numbers: {
+    flex: 1,
+    backgroundColor: "#1F3252",
+    color: "#FFFFFF",
+    margin: 10,
+    height: "100%",
+    alignSelf: "stretch",
+    textAlign: "center",
+    textAlignVertical: "center",
+    fontSize: 50,
+  },
+  buttonLayout: {
+    flex: 1,
+    padding: 10,
+    margin: 10,
+  },
 });
 
 const mapStateToProps = (state) => {

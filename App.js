@@ -14,6 +14,9 @@ import ForgotPasswordScreen from "./src/screens/ForgotPasswordScreen";
 import SettingsScreen from "./src/screens/SettingsScreen";
 import ToolsScreen from "./src/screens/ToolsScreen";
 import StopWatchScreen from "./src/screens/StopWatchScreen";
+import CountdownTimerScreen from "./src/screens/CountdownTimerScreen";
+import TabataTimerScreen from "./src/screens/TabataTimerScreen";
+
 import WorkoutLogScreen from "./src/screens/WorkoutLogScreen";
 
 // import LoadingScreen from './src/screens/LoadingScreen';
@@ -155,6 +158,38 @@ function ToolsSec() {
       <Stack.Screen
         name="Stop Watch"
         component={StopWatchScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+            fontSize: 10,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Countdown Timer"
+        component={CountdownTimerScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+            fontSize: 10,
+          },
+        }}
+      />
+            <Stack.Screen
+        name="Tabata Timer"
+        component={TabataTimerScreen}
         options={{
           headerShown: true,
           headerTintColor: "#FFFFFF",
