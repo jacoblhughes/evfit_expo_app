@@ -1,166 +1,154 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  TouchableHighlight,
+  Button,
+  Image,
   TextInput,
+  Touchable,
+  Dimensions,
+  ImageBackground,
+  TouchableHighlight,
 } from "react-native";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import resolveAssetSource from "react-native/Libraries/Image/resolveAssetSource";
 import { connect } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-class TabataTimerScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      countdownReset: false,
-      countdownOn: false,
-      countdownStart: 0,
-      countdownTime: 0,
-      countdownMinutes: 0,
-      countdownSeconds: 0,
-      countdownMillis: 0,
-      countdownBegan: false,
-    };
-    // this.toggleTimer = this.toggleTimer.bind(this);
-    // this.resetTimer = this.resetTimer.bind(this);
-    this.toggleCountdown = this.toggleCountdown.bind(this);
-    this.resetCountdown = this.resetCountdown.bind(this);
-    this.setTimer = this.setTimer.bind(this);
+const TabataTimerScreen = () => {
+  const [tabataRounds, setTabataRounds] = useState(8);
+  const [tabataTime, setTabataTime] = useState(0);
+  const [tabataOn, setTabataOn] = useState(false);
+  const [status, setStatus] = useState("Enter # Of Exercises, Hit Set Workout");
+  const [tabataReset, setTabataReset] = useState(false);
+  const [tabataStart, setTabataStart] = useState(0);
+  const [tabataExercises, setTabataExercises] = useState(0);
+  const [tabataTotalRounds, setTabataTotalRounds] = useState(0);
+
+  // componentDidUpdate() {}
+
+  // componentDidMount() {}
+
+  function setWorkout() {
+    setTabataTotalRounds(tabataExercises * 4);
+    setStatus("Hit Start");
   }
 
-  componentDidUpdate() {
-    if (this.state.countdownTime < 0 && this.state.countdownBegan == true) {
-          this.setState({
-      countdownReset: true,
-      countdownOn: false,
-      countdownStart: 0,
-      countdownTime: 0,
-      countdownBegan: false
-    });
+  function toggleTabata() {
+    if (tabataOn == false) {
+      setTabataOn(!tabataOn);
+      console.log(tabataTime)
 
-    clearInterval(this.timer);
-    }
-  }
-
-  componentDidMount() {
-  }
-
-  // toggleTimer() {
-  //   this.setState({ timerStart: !this.state.timerStart, timerReset: false });
-  // }
-
-  setTimer() {
-    let tempNum = (this.state.countdownMinutes * 60000) + (this.state.countdownSeconds * 1000) + (this.state.countdownMillis);
-    this.setState({ countdownTime: tempNum, countdownBegan: true});
-  }
-
-  toggleCountdown() {
-    if (this.state.countdownOn == false && this.state.countdownTime !== 0) {
-      this.setState({
-        countdownOn: !this.state.countdownOn,
-        countdownReset: false,
-        countdownTime: this.state.countdownTime,
-        countdownStart: Date.now() + this.state.countdownTime,
-      });
-
-      this.timer = setInterval(() => {
-        this.setState({
-          countdownTime: -1 *(Date.now() - this.state.countdownStart),
-        });
-      }, 10);
+      setTabataTime(tabataTime);
+      console.log(tabataTime)
+      setTabataStart(Date.now() + 20000);
+      console.log("111");
+      tabataTimer = setInterval(() => {
+        setTabataTime(tabataTime-Date.now());
+      }, 100);
     } else {
-      this.setState({
-        countdownOn: !this.state.countdownOn,
-        countdownReset: false,
-        countdownTime: this.state.countdownTime,
-      });
-      clearInterval(this.timer);
+      clearInterval(tabataTimer);
+
+      setTabataOn(!tabataOn);
+      setTabataTime(tabataTime);
+      console.log("else ");
+
     }
   }
 
-  resetCountdown() {
-    this.setState({
-      countdownReset: true,
-      countdownOn: false,
-      countdownStart: 0,
-      countdownTime: 0,
-      countdownBegan: false
-    });
+  function resetStopwatch() {
+    setTabataOn(false);
+    setTabataStart(0);
+    setTabataTime(0);
 
-    clearInterval(this.timer);
+    clearInterval(tabataTimer);
   }
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.setTimeLayout}>
-          <TextInput
-            style={styles.numbers}
-            placeholderTextColor="#FFFFFF"
-            placeholder="Rounds"
-            keyboardType="numeric"
-            onChangeText={(number) =>
-              this.setState({ countdownMinutes: number })
-            }
-          />
-
-        </View>
-        <View style={styles.textLayout}>
-          <Text style={styles.descText}>Minutes</Text>
-          <Text style={styles.descText}>Seconds</Text>
-        </View>
-        <View style={styles.clockLayout}>
-          <Text style={styles.numbers}>
-            {("0" + (Math.floor(this.state.countdownTime / 60000) % 60)).slice(
-              -2
-            )}
-          </Text>
-          <Text style={styles.numbers}>
-            {("0" + (Math.floor(this.state.countdownTime / 1000) % 60)).slice(
-              -2
-            )}
-          </Text>
-        </View>
-        <View style={styles.buttonLayout}>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={this.setTimer}
-          >
-            <Text style={styles.buttonText}>Set Timer</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.button}
-            onPress={this.toggleCountdown}
-          >
-            <Text style={styles.buttonText}>
-              {!this.state.countdownOn ? "Start" : "Pause"}
-            </Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            style={styles.button}
-            onPress={this.resetCountdown}
-          >
-            <Text style={styles.buttonText}>Reset</Text>
-          </TouchableHighlight>
-
-        </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.exerciseLayout}>
+        <TextInput
+          style={styles.exercise}
+          placeholderTextColor="#FFFFFF"
+          placeholder="# Of Exercises"
+          keyboardType="numeric"
+          returnKeyType="done"
+          onChangeText={(number) => setTabataExercises(number)}
+        />
       </View>
-    );
-  }
-}
 
-const handleTimerComplete = () => alert("custom completion function");
+      <View style={styles.textLayout}>
+        <Text style={styles.descText}>Seconds Left In Round</Text>
+      </View>
+      <View style={styles.clockLayout}>
+        <Text style={styles.numbers}>{Math.floor(tabataTime / 1000) % 60}</Text>
+      </View>
+      <View style={styles.textLayout}>
+        <Text style={styles.descText}>Rounds Left</Text>
+      </View>
+      <View style={styles.clockLayout}>
+        <Text style={styles.numbers}>{tabataTotalRounds}</Text>
+      </View>
+      <View style={styles.statusLayout}>
+        <Text style={styles.descText}>Directions: {status}</Text>
+      </View>
+      <View style={styles.buttonLayout}>
+        <TouchableOpacity style={styles.button} onPress={setWorkout}>
+          <Text style={styles.buttonText}>Set Workout</Text>
+        </TouchableOpacity>
+        <TouchableHighlight style={styles.button} onPress={toggleTabata}>
+          <Text style={styles.buttonText}>{!tabataOn ? "Start" : "Pause"}</Text>
+        </TouchableHighlight>
+
+        <TouchableHighlight style={styles.button} onPress={resetStopwatch}>
+          <Text style={styles.buttonText}>Reset</Text>
+        </TouchableHighlight>
+      </View>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#FFFFFF",
     justifyContent: "space-evenly",
   },
-  buttonText: {
+  exerciseLayout: {
+    flex: 2,
+    justifyContent: "center",
+    margin: 20,
+  },
+
+  exercise: {
+    backgroundColor: "#1F3252",
     color: "#FFFFFF",
+    textAlign: "center",
+    alignItems: "center",
     fontSize: 30,
+    flex: 1,
+    borderWidth: 4,
+    borderColor: "#C18527",
+    borderRadius: 20,
+  },
+  textLayout: {
+    flex: 1,
+    justifyContent: "center",
+  },
+  clockLayout: {
+    flex: 1,
+    justifyContent: "space-evenly",
+    backgroundColor: "#1F3252",
+  },
+  buttonLayout: {
+    flex: 2,
+    justifyContent: "center",
+    backgroundColor: "#1F3252",
+  },
+  statusLayout: {
+    flex: 1,
+    justifyContent: "center",
   },
   button: {
     backgroundColor: "#1F3252",
@@ -168,39 +156,18 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "space-evenly",
   },
-
-  clockLayout: {
-    flex: 3,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
+  buttonText: {
+    color: "#FFFFFF",
   },
   numbers: {
-    flex: 1,
-    backgroundColor: "#1F3252",
     color: "#FFFFFF",
-    margin: 10,
     textAlign: "center",
-    fontSize: 50,
+    alignItems: "center",
   },
-  buttonLayout: {
-    flex: 3,
-    padding: 10,
-    margin: 10,
+  descText: {
+    textAlign: "center",
+    alignItems: "center",
   },
-  textLayout: {
-    flex: 1,
-
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  setTimeLayout: {
-    flex: 3,
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-  },
-
 });
 
 const mapStateToProps = (state) => {

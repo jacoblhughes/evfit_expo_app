@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { View, Text, Dimensions } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -16,6 +17,9 @@ import ToolsScreen from "./src/screens/ToolsScreen";
 import StopWatchScreen from "./src/screens/StopWatchScreen";
 import CountdownTimerScreen from "./src/screens/CountdownTimerScreen";
 import TabataTimerScreen from "./src/screens/TabataTimerScreen";
+import LoadingScreen from "./src/screens/LoadingScreen";
+import { loadingAction } from "./src/actions/MyActions.js";
+import { connect } from "react-redux";
 
 import WorkoutLogScreen from "./src/screens/WorkoutLogScreen";
 
@@ -137,6 +141,28 @@ function HabitSec() {
   );
 }
 
+function LoadingSec() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Loading Screen"
+        component={LoadingScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function ToolsSec() {
   return (
     <Stack.Navigator>
@@ -187,7 +213,7 @@ function ToolsSec() {
           },
         }}
       />
-            <Stack.Screen
+      <Stack.Screen
         name="Tabata Timer"
         component={TabataTimerScreen}
         options={{
@@ -225,45 +251,52 @@ function WorkoutLogSec() {
           },
         }}
       />
-
     </Stack.Navigator>
   );
 }
 
 function App() {
-  return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="WelcomeSec">
-          <Stack.Screen
-            name="HomeSec"
-            options={{ headerShown: false }}
-            component={HomeSec}
-          />
-          <Stack.Screen
-            name="WelcomeSec"
-            options={{ headerShown: false }}
-            component={WelcomeSec}
-          />
-          <Stack.Screen
-            name="HabitSec"
-            options={{ headerShown: false }}
-            component={HabitSec}
-          />
-          <Stack.Screen
-            name="ToolsSec"
-            options={{ headerShown: false }}
-            component={ToolsSec}
-          />
-                    <Stack.Screen
-            name="WorkoutLogSec"
-            options={{ headerShown: false }}
-            component={WorkoutLogSec}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
-  );
+
+    return (
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="WelcomeSec">
+            <Stack.Screen
+              name="WelcomeSec"
+              options={{ headerShown: false }}
+              component={WelcomeSec}
+            />
+            <Stack.Screen
+              name="HomeSec"
+              options={{ headerShown: false }}
+              component={HomeSec}
+            />
+
+            <Stack.Screen
+              name="HabitSec"
+              options={{ headerShown: false }}
+              component={HabitSec}
+            />
+            <Stack.Screen
+              name="ToolsSec"
+              options={{ headerShown: false }}
+              component={ToolsSec}
+            />
+            <Stack.Screen
+              name="WorkoutLogSec"
+              options={{ headerShown: false }}
+              component={WorkoutLogSec}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
+    );
 }
 
 export default App;
+// const mapStateToProps = (state) => {
+//   const { enemies } = state;
+//   return { enemies };
+// };
+
+// export default connect(mapStateToProps)(App);

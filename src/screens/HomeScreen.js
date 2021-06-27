@@ -35,6 +35,7 @@ import Loading from "../components/Loading";
 import Login from "../components/Login";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { BackHandler } from "react-native";
+import LoadingScreen from "./LoadingScreen";
 
 //TO DO
 // Fix dates on django end to be ISO format where possible automatically
@@ -58,16 +59,8 @@ class HomeScreen extends React.Component {
     // this.postMessage = this.postMessage.bind(this);
     this.fetchHabits = this.fetchHabits.bind(this);
   }
-  componentDidUpdate(prevProps) {
-    // console.log("thisipdated");
-    // if (
-    //   this.props.enemies.getPosts !== null &&
-    //   this.props.enemies.recentBlog !== null &&
-    //   this.props.enemies.getHabits !== null
-    // ) {
-    //   console.log("thisworkd");
-    //   this.props.loadingAction(false);
-    // }
+  componentDidUpdate() {
+
   }
 
   componentDidMount() {
@@ -77,7 +70,6 @@ class HomeScreen extends React.Component {
   }
 
   componentDidUpdate() {
-
     this.habitCheck();
   }
 
@@ -116,9 +108,7 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getPostsAction(res);
-          // if (this.props.enemies.recentBlog !== null) {
-          //   this.props.loadingAction(false);
-          // }
+
         });
     } catch (error) {
       console.log(error);
@@ -141,9 +131,7 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getHabitsAction(res);
-          // if (this.props.enemies.getPosts !== null) {
-          //   this.props.loadingAction(false);
-          // }
+
         });
     } catch (error) {
       console.log(error);
@@ -166,9 +154,7 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getRecentBlogAction(res);
-          // if (this.props.enemies.getPosts !== null) {
-          //   this.props.loadingAction(false);
-          // }
+
         });
     } catch (error) {
       console.log(error);
@@ -318,12 +304,9 @@ class HomeScreen extends React.Component {
   };
 
   render() {
-    if (this.props.enemies.loading === true) {
-      return <Loading />;
-    } else if (
-      this.props.enemies.token === null &&
-      this.props.enemies.loading === false
-    ) {
+    if (this.props.enemies.loading) {
+      return <LoadingScreen />;
+    } else if (this.props.enemies.token === null) {
       return (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -341,7 +324,7 @@ class HomeScreen extends React.Component {
               placeholder="Username"
               label="Username"
               autoCompleteType="username"
-              autoCapitalize = 'none'
+              autoCapitalize="none"
               onChangeText={(text) => this.props.setUsernameAction(text)}
             />
             <TextInput
@@ -349,8 +332,8 @@ class HomeScreen extends React.Component {
               getRef={(input) => (this.input = input)}
               autoCompleteType="password"
               placeholder="Password"
-              secureTextEntry = {true}
-              autoCapitalize = 'none'
+              secureTextEntry={true}
+              autoCapitalize="none"
               onChangeText={(text) => this.props.setPasswordAction(text)}
             />
           </View>
@@ -382,7 +365,6 @@ class HomeScreen extends React.Component {
       );
     } else if (
       this.props.enemies.token !== null &&
-      this.props.enemies.loading === false &&
       this.props.enemies.getPosts !== null &&
       this.props.enemies.recentBlog !== null &&
       this.props.enemies.getHabits
@@ -441,27 +423,6 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Logout</Text>
               </View>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                console.log(this.props.enemies);
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Log</Text>
-              </View>
-            </TouchableOpacity> */}
-
-            {/* <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                BackHandler.exitApp();
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Exit App</Text>
-              </View>
-            </TouchableOpacity> */}
           </View>
           <View style={styles.postTitleView}>
             <Text style={styles.postTitle}>
@@ -476,7 +437,7 @@ class HomeScreen extends React.Component {
         </View>
       );
     } else {
-      return <Loading />;
+      return <LoadingScreen />;
     }
   }
 }

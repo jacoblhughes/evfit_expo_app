@@ -61,9 +61,7 @@ class WelcomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getRecentBlogAction(res);
-          // if (this.props.enemies.getPosts !== null) {
-          //   this.props.loadingAction(false);
-          // }
+
         });
     } catch (error) {
       console.log(error);
@@ -86,9 +84,7 @@ class WelcomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getHabitsAction(res);
-          // if (this.props.enemies.getPosts !== null) {
-          //   this.props.loadingAction(false);
-          // }
+
         });
     } catch (error) {
       console.log(error);
@@ -111,9 +107,7 @@ class WelcomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getPostsAction(res);
-          // if (this.props.enemies.recentBlog !== null) {
-          //   this.props.loadingAction(false);
-          // }
+
         });
     } catch (error) {
       console.log(error);
@@ -165,9 +159,9 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 5,
-    // width: null,
-    height: null,
-    resizeMode: "contain",
+    height: undefined,
+    width: undefined,
+    resizeMode: 'contain'
   },
   buttonView: {
     flex: 3,

@@ -10,6 +10,7 @@ import { checkLastPostAction } from "../actions/MyActions.js";
 
 import { bindActionCreators } from "redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import LoadingScreen from "./LoadingScreen";
 
 // import { TouchableOpacity } from "react-native-gesture-handler";
 
@@ -52,12 +53,9 @@ class HabitScreen extends React.Component {
       })
       .then((res) => {
         this.habitCheck();
-
-        
       });
-      this.setState({lastLoggedDay: new Date(this.props.enemies.date - this.props.enemies.todayOffset)
-        .toISOString()
-        .split("T")[0], })
+
+    this.props.loadingAction(false);
   };
 
   submitNo = async () => {
@@ -83,16 +81,13 @@ class HabitScreen extends React.Component {
       })
       .then((res) => {
         this.habitCheck();
-
-
       });
-      this.setState({lastLoggedDay: new Date(this.props.enemies.date - this.props.enemies.todayOffset)
-        .toISOString()
-        .split("T")[0], })
+
+    this.props.loadingAction(false);
   };
 
-  habitCheck = () => {
-    fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
+  habitCheck = async () => {
+    await fetch(`${this.props.enemies.internet}/api/habit_measurements/`, {
       method: "GET",
       headers: {
         // "Accept": "application/json",
@@ -110,6 +105,16 @@ class HabitScreen extends React.Component {
             return this.props.checkLastPostAction(res[i]["created"]);
           }
         }
+        this.setState({
+          lastLoggedDay: new Date(
+            this.props.enemies.date - this.props.enemies.todayOffset
+          )
+            .toISOString()
+            .split("T")[0],
+        });
+      })
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -124,11 +129,12 @@ class HabitScreen extends React.Component {
       this.props.navigation.replace("HomeSec");
     }
     Promise.all[this.habitCheck()];
-
   }
 
   render() {
-    if (
+    if (this.props.enemies.loading) {
+      return <LoadingScreen />;
+    } else if (
       new Date(this.props.enemies.date - this.props.enemies.todayOffset)
         .toISOString()
         .split("T")[0] !==
@@ -140,9 +146,9 @@ class HabitScreen extends React.Component {
             style={styles.logo}
             source={require("../../src/images/logo.png")}
           />
-          
+
           <View style={styles.textView}>
-          <Text style={styles.text}>
+            <Text style={styles.text}>
               Logged in as: {this.props.enemies.userName}
             </Text>
             <Text style={styles.text}>
@@ -158,6 +164,7 @@ class HabitScreen extends React.Component {
             <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
+                this.props.loadingAction(true);
                 this.submitYes();
               }}
             >
@@ -168,6 +175,7 @@ class HabitScreen extends React.Component {
             <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
+                this.props.loadingAction(true);
                 this.submitNo();
               }}
             >
@@ -175,26 +183,6 @@ class HabitScreen extends React.Component {
                 <Text style={styles.textAll}>No</Text>
               </View>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                this.props.navigation.goBack();
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Back</Text>
-              </View>
-            </TouchableOpacity> */}
-            {/* <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                console.log(this.state);
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Log</Text>
-              </View>
-            </TouchableOpacity> */}
           </View>
         </View>
       );
@@ -217,7 +205,9 @@ class HabitScreen extends React.Component {
             </Text>
           </View>
           <View style={styles.buttonView}>
-            <Text style={styles.text}>Congratulations, you already logged!</Text>
+            <Text style={styles.text}>
+              Congratulations, you already logged!
+            </Text>
 
             <TouchableOpacity
               style={styles.homeButton}
@@ -229,16 +219,6 @@ class HabitScreen extends React.Component {
                 <Text style={styles.textAll}>Go Back</Text>
               </View>
             </TouchableOpacity>
-            {/* <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                console.log(this.props.enemies);
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Log</Text>
-              </View>
-            </TouchableOpacity> */}
           </View>
         </View>
       );
