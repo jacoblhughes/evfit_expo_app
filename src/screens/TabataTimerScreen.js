@@ -34,35 +34,32 @@ const TabataTimerScreen = () => {
     setTabataTotalRounds(tabataExercises * 4);
     setStatus("Hit Start");
   }
+  let tabataTimer = null;
 
   function toggleTabata() {
     if (tabataOn == false) {
+      console.log("if");
       setTabataOn(!tabataOn);
-      console.log(tabataTime)
-
       setTabataTime(tabataTime);
-      console.log(tabataTime)
-      setTabataStart(Date.now() + 20000);
-      console.log("111");
+      setTabataStart(Date.now());
       tabataTimer = setInterval(() => {
-        setTabataTime(tabataTime-Date.now());
+        console.log(tabataTime);
+        setTabataTime(tabataTime - Date.now());
       }, 100);
     } else {
+      console.log("else");
       clearInterval(tabataTimer);
-
       setTabataOn(!tabataOn);
       setTabataTime(tabataTime);
-      console.log("else ");
-
     }
+    return () => clearInterval(tabataTimer);
   }
 
   function resetStopwatch() {
+    clearInterval(tabataTimer);
     setTabataOn(false);
     setTabataStart(0);
     setTabataTime(0);
-
-    clearInterval(tabataTimer);
   }
 
   return (
@@ -82,7 +79,9 @@ const TabataTimerScreen = () => {
         <Text style={styles.descText}>Seconds Left In Round</Text>
       </View>
       <View style={styles.clockLayout}>
-        <Text style={styles.numbers}>{Math.floor(tabataTime / 1000) % 60}</Text>
+        <Text style={styles.numbers}>
+          {("0" + (Math.floor(tabataTime / 1000) % 60)).slice(-2)}
+        </Text>
       </View>
       <View style={styles.textLayout}>
         <Text style={styles.descText}>Rounds Left</Text>

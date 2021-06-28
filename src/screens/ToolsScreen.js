@@ -74,7 +74,7 @@ class ToolsScreen extends React.Component {
               <Text style={styles.textAll}>Count Down Timer</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={styles.homeButton}
             onPress={() => {
               this.props.navigation.navigate("Tabata Timer");
@@ -83,7 +83,7 @@ class ToolsScreen extends React.Component {
             <View style={styles.button}>
               <Text style={styles.textAll}>Tabata Timer</Text>
             </View>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     );

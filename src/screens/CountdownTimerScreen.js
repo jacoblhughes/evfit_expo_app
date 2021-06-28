@@ -8,6 +8,28 @@ import {
   TextInput,
 } from "react-native";
 import { connect } from "react-redux";
+// import Constants from "expo-constants";
+// import * as Notifications from "expo-notifications";
+
+// Notifications.setNotificationHandler({
+//   handleNotification: async () => ({
+//     shouldShowAlert: true,
+//     shouldPlaySound: true,
+//     shouldSetBadge: false,
+//   }),
+// });
+
+// fireNotification = async () => {
+    
+//   await Notifications.cancelAllScheduledNotificationsAsync();
+
+//   await Notifications.scheduleNotificationAsync({
+//     content: {
+//       title: "CountdownTimer! 📬",
+//       body: 'Countdown Timer',
+//     }
+//   });
+// };
 
 class CountdownTimerScreen extends React.Component {
   constructor(props) {
@@ -100,6 +122,7 @@ class CountdownTimerScreen extends React.Component {
             placeholderTextColor="#FFFFFF"
             placeholder="MM"
             keyboardType="numeric"
+            returnKeyType='done'
             onChangeText={(number) =>
               this.setState({ countdownMinutes: number })
             }
@@ -109,6 +132,7 @@ class CountdownTimerScreen extends React.Component {
             placeholderTextColor="#FFFFFF"
             placeholder="SS"
             keyboardType="numeric"
+            returnKeyType='done'
             onChangeText={(number) =>
               this.setState({ countdownSeconds: number })
             }
@@ -119,6 +143,7 @@ class CountdownTimerScreen extends React.Component {
             placeholderTextColor="#FFFFFF"
             placeholder="mm"
             keyboardType="numeric"
+            returnKeyType='done'
             onChangeText={(number) =>
               this.setState({ countdownMillis: number })
             }
