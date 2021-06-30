@@ -97,8 +97,7 @@ class HabitScreen extends React.Component {
       })
       .then((res) => {
         let tempHabitObject = [];
-        // console.log(res)
-
+        
         for (let i = 0; i < res.length; i++) {
           if (res[i]["habit_record"] === this.props.enemies.userNameKey) {
             tempHabitObject.push(res[i]);

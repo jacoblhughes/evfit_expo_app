@@ -32,25 +32,46 @@ import {
 class HabitHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      GBP: 0,
+      GBPPercent:0,
+    };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.enemies.habitHistory.map((item) => {
 
-  componentDidUpdate(prevProps) {}
+      let time = item.created;
+      let time1 = time.split("T")[0];
+
+      if (item.habit == this.props.enemies.userHabit && new Date(time1).getTime() > new Date(Date.now() - (86400000 *15)) && item.reply == 'Yes' ) {
+        // console.log(item)
+        this.setState({
+          GBP: this.state.GBP++,
+        });
+      }
+    });
+    this.setState({
+      GBP: this.state.GBP,
+      GBPPercent: this.state.GBP/14
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+
+  }
 
   habitList = () => {
     return this.props.enemies.habitHistory.map((item) => {
       let time = item.created;
       let time1 = time.split("T")[0];
-      let time2 = time.split("T")[1];
-      let time3 = time2.split(".")[0];
 
       for (let i = 0; i < this.props.enemies.getHabits.length; i++) {
+
         if (item.habit == this.props.enemies.getHabits[i]["id"]) {
           item.habit = this.props.enemies.getHabits[i]["name"];
         }
       }
-
       return (
         <View style={styles.post} key={item.id}>
           <Text style={styles.postMessage}>{item.reply}</Text>
@@ -66,6 +87,8 @@ class HabitHistoryScreen extends React.Component {
       <View style={styles.container}>
         <View style={styles.textView}>
           <Text style={styles.text}>Habit History</Text>
+          <Text style={styles.text}>Current Habit: {this.props.enemies.userHabit}</Text>
+          <Text style={styles.text}>Current Stats: {this.state.GBP}/14 = {(this.state.GBPPercent).toFixed(2)*100} %</Text>
           <ScrollView>{this.habitList()}</ScrollView>
         </View>
       </View>
