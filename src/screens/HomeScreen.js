@@ -25,16 +25,11 @@ import { getHabitsAction } from "../actions/MyActions";
 
 import { bindActionCreators } from "redux";
 
-import PasswordInputText from "react-native-hide-show-password-input";
-
 import { LogBox } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import Loading from "../components/Loading";
-import Login from "../components/Login";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { BackHandler } from "react-native";
 import LoadingScreen from "./LoadingScreen";
 
 //TO DO

@@ -7,15 +7,11 @@ import { authorizeAction } from "../actions/MyActions.js";
 import { updateProfileInfoAction } from "../actions/MyActions.js";
 import { logOutAction } from "../actions/MyActions.js";
 import { checkLastPostAction } from "../actions/MyActions.js";
+import { setHabitHistoryAction } from "../actions/MyActions.js";
 
 import { bindActionCreators } from "redux";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import LoadingScreen from "./LoadingScreen";
-
-// import { TouchableOpacity } from "react-native-gesture-handler";
-
-import { BackHandler } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 class HabitScreen extends React.Component {
   constructor(props) {
@@ -100,11 +96,22 @@ class HabitScreen extends React.Component {
         return response.json();
       })
       .then((res) => {
+        let tempHabitObject = [];
+        // console.log(res)
+
+        for (let i = 0; i < res.length; i++) {
+          if (res[i]["habit_record"] === this.props.enemies.userNameKey) {
+            tempHabitObject.push(res[i]);
+          }
+        }
+        this.props.setHabitHistoryAction(tempHabitObject);
+
         for (let i = 0; i < res.length; i++) {
           if (res[i]["habit_record"] === this.props.enemies.userNameKey) {
             return this.props.checkLastPostAction(res[i]["created"]);
           }
         }
+
         this.setState({
           lastLoggedDay: new Date(
             this.props.enemies.date - this.props.enemies.todayOffset
@@ -112,6 +119,7 @@ class HabitScreen extends React.Component {
             .toISOString()
             .split("T")[0],
         });
+
       })
       .catch((error) => {
         console.log(error);
@@ -183,6 +191,16 @@ class HabitScreen extends React.Component {
                 <Text style={styles.textAll}>No</Text>
               </View>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.navigation.navigate("Habit History");
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Habit History</Text>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
       );
@@ -219,6 +237,17 @@ class HabitScreen extends React.Component {
                 <Text style={styles.textAll}>Go Back</Text>
               </View>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.navigation.navigate("Habit History");
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Habit History</Text>
+              </View>
+            </TouchableOpacity>
+
           </View>
         </View>
       );
@@ -273,6 +302,7 @@ const mapDispatchToProps = (dispatch) =>
       updateProfileInfoAction,
       logOutAction,
       checkLastPostAction,
+      setHabitHistoryAction,
     },
     dispatch
   );

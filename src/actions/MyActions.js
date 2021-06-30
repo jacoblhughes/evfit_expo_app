@@ -71,3 +71,8 @@ export const unsetExpoAction = (nothing_here) => ({
   type: "UNSETEXPO",
   payload: nothing_here,
 });
+
+export const setHabitHistoryAction = (object) => ({
+  type: "SETHABITHISTORY",
+  payload: object,
+});

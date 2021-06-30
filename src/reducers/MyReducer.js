@@ -15,13 +15,14 @@ const INITIAL_STATE = {
   inputPassword: null,
   recentBlog: null,
   getPosts: null,
-  // internet: 'http://14f0ae402239.ngrok.io',
+  // internet: 'http://b97e56c5c11e.ngrok.io',
   internet: 'https://evidentfitness.com',
   getHabits: null,
   setEmail: null,
   setExpo: null,
   setExpoId: null,
   setExpoAccepted: false,
+  habitHistory: null,
 };
 
 const myReducer = (state = INITIAL_STATE, action) => {
@@ -166,6 +167,13 @@ const myReducer = (state = INITIAL_STATE, action) => {
         setExpo: null,
         // setExpoId: null,
         setExpoAccepted: false,
+      };
+    }
+    case 'SETHABITHISTORY':{
+      return {
+        ...state,
+        // and update the copy with the new value
+        habitHistory: action.payload,
       };
     }
 

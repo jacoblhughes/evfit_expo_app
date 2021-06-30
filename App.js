@@ -18,6 +18,7 @@ import StopWatchScreen from "./src/screens/StopWatchScreen";
 import CountdownTimerScreen from "./src/screens/CountdownTimerScreen";
 import TabataTimerScreen from "./src/screens/TabataTimerScreen";
 import LoadingScreen from "./src/screens/LoadingScreen";
+import HabitHistoryScreen from "./src/screens/HabitHistoryScreen";
 import { loadingAction } from "./src/actions/MyActions.js";
 import { connect } from "react-redux";
 
@@ -125,6 +126,21 @@ function HabitSec() {
       <Stack.Screen
         name="Habit Check-In"
         component={HabitScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Habit History"
+        component={HabitHistoryScreen}
         options={{
           headerShown: true,
           headerTintColor: "#FFFFFF",
