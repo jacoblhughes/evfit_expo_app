@@ -431,7 +431,16 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Settings</Text>
               </View>
             </TouchableOpacity>
-
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.navigation.navigate("WorkoutLogSec");
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Workout Log</Text>
+              </View>
+            </TouchableOpacity>
             <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
@@ -442,19 +451,7 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Logout</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                this.props.navigation.navigate("WorkoutLogSec");
-                // console.log(this.props.enemies.exerciseLog)
-                // this.fetchExerciseLog()
 
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Workout Log</Text>
-              </View>
-            </TouchableOpacity>
           </View>
           <View style={styles.postTitleView}>
             <Text style={styles.postTitle}>
