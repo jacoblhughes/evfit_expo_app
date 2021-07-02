@@ -76,3 +76,8 @@ export const setHabitHistoryAction = (object) => ({
   type: "SETHABITHISTORY",
   payload: object,
 });
+
+export const setExerciseLogAction = (object) => ({
+  type: "SETEXERCISELOG",
+  payload: object,
+});

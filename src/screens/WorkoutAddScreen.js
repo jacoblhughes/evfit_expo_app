@@ -27,7 +27,7 @@ import { bindActionCreators } from "redux";
 import { setExpoAction } from "../actions/MyActions.js";
 import { unsetExpoAction } from "../actions/MyActions.js";
 import { getExpoAction } from "../actions/MyActions.js";
-
+import { setExerciseLogAction } from "../actions/MyActions.js";
 import PasswordInputText from "react-native-hide-show-password-input";
 
 import { LogBox } from "react-native";
@@ -38,9 +38,11 @@ import { LogBox } from "react-native";
 // Asyncstorage to allow saving password - check for login credentials
 // SecureStorage
 
-class WorkoutLogScreen extends React.Component {
+class WorkoutAddScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.fetchExerciseLog = this.fetchExerciseLog.bind(this);
+    this.state = { exercise: null };
   }
 
   componentDidUpdate(prevProps) {
@@ -50,37 +52,79 @@ class WorkoutLogScreen extends React.Component {
 
   componentDidMount() {}
 
-  exerciseList = () => {
-    return this.props.enemies.exerciseLog.map((item) => {
-      let time = item.created;
-      let time1 = time.split("T")[0];
-      return (
-        <View style={styles.post} key={item.id}>
-          <Text style={styles.postMessageCreated}>{time1}</Text>
-          <Text style={styles.postMessage}>{item.exercise}</Text>
-        </View>
-      );
-    });
+  fetchExerciseLog = async () => {
+    try {
+      await fetch(`${this.props.enemies.internet}/api/exerciselog/`, {
+        method: "GET",
+        headers: {
+          // "Accept": "application/json",
+          "Content-Type": "application/json",
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: "Token " + this.props.enemies.token,
+        },
+      })
+        .then((response) => {
+          // console.log(response)
+          return response.json();
+        })
+        .then((res) => {
+          this.props.setExerciseLogAction(res);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  postExercise = () => {
+    fetch(`${this.props.enemies.internet}/api/exerciselog/`, {
+      method: "POST",
+      headers: {
+        // "Accept": "application/json",
+        "Content-Type": "application/json",
+        // 'X-Requested-With': 'XMLHttpRequest',
+        Authorization: "Token " + this.props.enemies.token,
+      },
+      body: JSON.stringify({
+        exercise_record: this.props.enemies.userNameKey,
+        created: new Date(Date.now()),
+        exercise: this.state.exercise,
+      }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((res) => {
+        Promise.all(this.fetchExerciseLog());
+        this.props.navigation.navigate("WorkoutLogSec");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.textView}>
-          <Text style={styles.text}>Exercise History</Text>
-        </View>
-        <View style={styles.scroll}>
-          <ScrollView>{this.exerciseList()}</ScrollView>
+          <Text style={styles.text}>Type your workout below:</Text>
         </View>
         <View style={styles.buttonView}>
+          <TextInput
+            placeholder="Type here"
+            value={this.state.exercise}
+            onChangeText={(text) => this.setState({ exercise: text })}
+            multiline = {true}
+          ></TextInput>
+        </View>
+        <View style={styles.exerciseView}>
           <TouchableOpacity
             style={styles.homeButton}
             onPress={() => {
-              this.props.navigation.navigate("Workout Add");
+              this.postExercise();
             }}
           >
             <View style={styles.button}>
-              <Text style={styles.textAll}>Add a workout</Text>
+              <Text style={styles.textAll}>Submit workout</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -101,9 +145,11 @@ const styles = StyleSheet.create({
   buttonView: {
     flex: 1,
   },
-  scroll: {
-    flex: 8,
-  },
+  exerciseView:{
+  flex: 5,
+  borderColor: '#000000',
+  borderWidth: 1,
+},
   post: {
     marginBottom: 10,
   },
@@ -142,8 +188,9 @@ const mapDispatchToProps = (dispatch) =>
       setExpoAction,
       unsetExpoAction,
       getExpoAction,
+      setExerciseLogAction,
     },
     dispatch
   );
 
-export default connect(mapStateToProps, mapDispatchToProps)(WorkoutLogScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(WorkoutAddScreen);

@@ -25,6 +25,8 @@ import { getHabitsAction } from "../actions/MyActions";
 
 import { bindActionCreators } from "redux";
 
+import { setExerciseLogAction } from "../actions/MyActions.js";
+
 import { LogBox } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -53,15 +55,15 @@ class HomeScreen extends React.Component {
     // this.postList = this.postList.bind(this);
     // this.postMessage = this.postMessage.bind(this);
     this.fetchHabits = this.fetchHabits.bind(this);
+    this.fetchExerciseLog = this.fetchExerciseLog.bind(this);
   }
-  componentDidUpdate() {
-
-  }
+  componentDidUpdate() {}
 
   componentDidMount() {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
     this.fetchProfile();
     this.habitCheck();
+    this.fetchExerciseLog();
   }
 
   componentDidUpdate() {
@@ -103,7 +105,6 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getPostsAction(res);
-
         });
     } catch (error) {
       console.log(error);
@@ -126,7 +127,6 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getHabitsAction(res);
-
         });
     } catch (error) {
       console.log(error);
@@ -149,7 +149,29 @@ class HomeScreen extends React.Component {
         })
         .then((res) => {
           this.props.getRecentBlogAction(res);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  fetchExerciseLog = async () => {
+    try {
+      await fetch(`${this.props.enemies.internet}/api/exerciselog/`, {
+        method: "GET",
+        headers: {
+          // "Accept": "application/json",
+          "Content-Type": "application/json",
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: "Token " + this.props.enemies.token,
+        },
+      })
+        .then((response) => {
+          // console.log(response)
+          return response.json();
+        })
+        .then((res) => {
+          this.props.setExerciseLogAction(res);
         });
     } catch (error) {
       console.log(error);
@@ -225,7 +247,8 @@ class HomeScreen extends React.Component {
             this.fetchBlog(),
             this.habitCheck(),
             this.fetchPosts(),
-            this.fetchHabits())
+            this.fetchHabits(),
+            this.fetchExerciseLog())
           ];
           this.props.loadingAction(false);
         });
@@ -362,7 +385,8 @@ class HomeScreen extends React.Component {
       this.props.enemies.token !== null &&
       this.props.enemies.getPosts !== null &&
       this.props.enemies.recentBlog !== null &&
-      this.props.enemies.getHabits
+      this.props.enemies.getHabits 
+      // && this.props.enemies.exerciseLog !== null
     ) {
       return (
         <View style={styles.container}>
@@ -416,6 +440,19 @@ class HomeScreen extends React.Component {
             >
               <View style={styles.homeButtonView}>
                 <Text style={styles.textAll}>Logout</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.props.navigation.navigate("WorkoutLogSec");
+                // console.log(this.props.enemies.exerciseLog)
+                // this.fetchExerciseLog()
+
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Workout Log</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -543,6 +580,7 @@ const mapDispatchToProps = (dispatch) =>
       getPostsAction,
       logOutAction,
       getHabitsAction,
+      setExerciseLogAction,
     },
     dispatch
   );

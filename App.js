@@ -23,6 +23,7 @@ import { loadingAction } from "./src/actions/MyActions.js";
 import { connect } from "react-redux";
 
 import WorkoutLogScreen from "./src/screens/WorkoutLogScreen";
+import WorkoutAddScreen from "./src/screens/WorkoutAddScreen";
 
 // import LoadingScreen from './src/screens/LoadingScreen';
 import ReactDOM from "react-dom";
@@ -254,7 +255,22 @@ function WorkoutLogSec() {
     <Stack.Navigator>
       <Stack.Screen
         name="Workout Log"
-        component={ToolsScreen}
+        component={WorkoutLogScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+          },
+        }}
+      />
+            <Stack.Screen
+        name="Workout Add"
+        component={WorkoutAddScreen}
         options={{
           headerShown: true,
           headerTintColor: "#FFFFFF",
