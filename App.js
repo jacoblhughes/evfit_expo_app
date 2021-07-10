@@ -325,10 +325,13 @@ function App() {
     );
 }
 
-export default App;
 // const mapStateToProps = (state) => {
 //   const { enemies } = state;
 //   return { enemies };
 // };
+
+export default App;
+
+
 
 // export default connect(mapStateToProps)(App);

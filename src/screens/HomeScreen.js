@@ -8,6 +8,7 @@ import {
   TextInput,
   FlatList,
   KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import { connect } from "react-redux";
 import { setTokenAction } from "../actions/MyActions.js";
@@ -22,6 +23,7 @@ import { getRecentBlogAction } from "../actions/MyActions.js";
 import { getPostsAction } from "../actions/MyActions.js";
 import { logOutAction } from "../actions/MyActions.js";
 import { getHabitsAction } from "../actions/MyActions";
+import {setHabitHistoryAction } from "../actions/MyActions"
 
 import { bindActionCreators } from "redux";
 
@@ -57,24 +59,24 @@ class HomeScreen extends React.Component {
     this.fetchHabits = this.fetchHabits.bind(this);
     this.fetchExerciseLog = this.fetchExerciseLog.bind(this);
   }
-  componentDidUpdate() {}
 
   componentDidMount() {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
-    this.fetchProfile();
-    this.habitCheck();
-    this.fetchExerciseLog();
+    if(this.props.enemies.todayDate !== new Date(new Date(Date.now()).getTime() - this.props.enemies.todayOffset).toISOString().split('T')[0] ){
+      this.fetchProfile();
+      this.habitCheck();
+      this.fetchExerciseLog();
+    }
+
   }
 
   componentDidUpdate() {
-    this.habitCheck();
   }
 
   _storeAsyncStorageTokenandLogout = async (value) => {
     try {
       await AsyncStorage.removeItem("@token");
     } catch (error) {
-      // saving error
       // console.log(error);
     }
     this.props.logOutAction();
@@ -237,8 +239,7 @@ class HomeScreen extends React.Component {
           }
         })
         .then((res) => {
-          // this.props.updateProfileInfoAction(res[0]);
-          // this.props.authorizeAction(true);
+
 
           this.props.setTokenAction(res["key"]);
           Promise.all[
@@ -297,11 +298,12 @@ class HomeScreen extends React.Component {
         return response.json();
       })
       .then((res) => {
-        for (let i = 0; i < res.length; i++) {
-          if (res[i]["habit_record"] === this.props.enemies.userNameKey) {
-            return this.props.checkLastPostAction(res[i]["created"]);
-          }
-        }
+        console.log(res)
+
+        this.props.checkLastPostAction(res[0]["created"])
+        this.props.setHabitHistoryAction(res);
+
+
       });
   };
 
@@ -385,7 +387,7 @@ class HomeScreen extends React.Component {
       this.props.enemies.token !== null &&
       this.props.enemies.getPosts !== null &&
       this.props.enemies.recentBlog !== null &&
-      this.props.enemies.getHabits 
+      this.props.enemies.getHabits
       // && this.props.enemies.exerciseLog !== null
     ) {
       return (
@@ -451,7 +453,17 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Logout</Text>
               </View>
             </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                console.log('ddd')
 
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Test</Text>
+              </View>
+            </TouchableOpacity>
           </View>
           <View style={styles.postTitleView}>
             <Text style={styles.postTitle}>
@@ -462,7 +474,7 @@ class HomeScreen extends React.Component {
           <View style={styles.postTitleView}>
             <Text style={styles.postTitle}>Get social with these habits:</Text>
           </View>
-          <View style={styles.postView}>{this.habitList()}</View>
+          <View style={styles.postView}><ScrollView>{this.habitList()}</ScrollView></View>
         </View>
       );
     } else {
@@ -501,7 +513,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   socialView: {
-    flex: 5,
+    flex: 6,
     justifyContent: "center",
     backgroundColor: "#AE4828",
     alignItems: "stretch",
@@ -535,7 +547,6 @@ const styles = StyleSheet.create({
   },
   postView: {
     flex: 3,
-    justifyContent: "space-around",
     backgroundColor: "#AE4828",
   },
   post: {
@@ -578,6 +589,7 @@ const mapDispatchToProps = (dispatch) =>
       logOutAction,
       getHabitsAction,
       setExerciseLogAction,
+      setHabitHistoryAction,
     },
     dispatch
   );

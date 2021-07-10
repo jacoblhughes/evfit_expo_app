@@ -44,7 +44,7 @@ const FadeInView = (props) => {
   React.useEffect(() => {
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 1000,
+      duration: 2000,
     }).start();
   }, [fadeAnim]);
 
@@ -69,7 +69,7 @@ class LoadingScreen extends React.Component {
     return (
       <View style={styles.container}>
         <FadeInView style={styles.loading}>
-          <Text style={styles.text}>Loading</Text>
+          <Text style={styles.text}>Loading and/or Logging</Text>
         </FadeInView>
       </View>
     );

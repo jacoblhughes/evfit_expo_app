@@ -7,6 +7,8 @@ import {
   Image,
   TextInput,
   ScrollView,
+  FlatList,
+  SafeAreaView,
 } from "react-native";
 import { connect } from "react-redux";
 import { setTokenAction } from "../actions/MyActions.js";
@@ -41,6 +43,7 @@ import { LogBox } from "react-native";
 class WorkoutLogScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.exerciseList = this.exerciseList.bind(this);
   }
 
   componentDidUpdate(prevProps) {
@@ -51,27 +54,36 @@ class WorkoutLogScreen extends React.Component {
   componentDidMount() {}
 
   exerciseList = () => {
-    return this.props.enemies.exerciseLog.map((item) => {
-      let time = item.created;
-      let time1 = time.split("T")[0];
+    if (this.props.enemies.exerciseLog.length === 0) {
       return (
-        <View style={styles.post} key={item.id}>
-          <Text style={styles.postMessageCreated}>{time1}</Text>
-          <Text style={styles.postMessage}>{item.exercise}</Text>
+        <View style={styles.post}>
+          <Text style={styles.postMessageCreated}>No Logs Found</Text>
+          <Text style={styles.postMessage}>
+            Please use the below button to add a workout
+          </Text>
         </View>
       );
-    });
+    } else {
+      return this.props.enemies.exerciseLog.map((item) => {
+        let time = item.created;
+        let time1 = time.split("T")[0];
+        return (
+          <View style={styles.post} key={item.id}>
+            <Text style={styles.postMessageCreated}>{time1}</Text>
+            <Text style={styles.postMessage}>{item.exercise}</Text>
+          </View>
+        );
+      });
+    }
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.textView}>
-          <Text style={styles.text}>Exercise History</Text>
-        </View>
-        <View style={styles.scroll}>
+        <View style={styles.scrollView}>
           <ScrollView>{this.exerciseList()}</ScrollView>
         </View>
+
         <View style={styles.buttonView}>
           <TouchableOpacity
             style={styles.homeButton}
@@ -94,21 +106,21 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
-  textView: {
-    flex: 1,
-    alignSelf: "center",
-  },
   buttonView: {
     flex: 1,
   },
-  scroll: {
-    flex: 8,
+  scrollView: {
+    flex: 4,
   },
   post: {
     marginBottom: 10,
   },
   postMessageCreated: {
     marginBottom: 10,
+    marginLeft: 20,
+  },
+  postMessage: {
+    marginLeft: 30,
   },
   button: {
     backgroundColor: "#1F3252",

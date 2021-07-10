@@ -7,15 +7,15 @@ const INITIAL_STATE = {
   userName: null,
   userNameKey: null,
   todayOffset: null,
-  date: null,
-  lastPost: null,
+  todayDate: null,
+  lastPostDate: null,
   loading: true,
   auth: false,
   inputUsername: null,
   inputPassword: null,
   recentBlog: null,
   getPosts: null,
-  // internet: 'http://ab2d1e65f22a.ngrok.io',
+  // internet: 'http://baab14ff1f35.ngrok.io',
   internet: 'https://evidentfitness.com',
   getHabits: null,
   setEmail: null,
@@ -60,8 +60,8 @@ const myReducer = (state = INITIAL_STATE, action) => {
         userHabitKey: action.payload["habit_key"],
         userName: action.payload["user"],
         userNameKey: action.payload["user_key"],
-        todayOffset: new Date().getTimezoneOffset() * 60 * 1000,
-        date: new Date(),
+        todayOffset: new Date(Date.now()).getTimezoneOffset() * 60 * 1000,
+        todayDate: new Date(new Date(Date.now()).getTime() - new Date(Date.now()).getTimezoneOffset() * 60 * 1000).toISOString().split('T')[0],
       };
     }
 
@@ -69,7 +69,7 @@ const myReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         // and update the copy with the new value
-        lastPost: action.payload,
+        lastPostDate: new Date(action.payload).toISOString().split("T")[0],
       };
     }
 
@@ -98,7 +98,7 @@ const myReducer = (state = INITIAL_STATE, action) => {
         userName: null,
         userNameKey: null,
         todayOffset: null,
-        date: null,
+        todayDate: null,
         lastPost: null,
         loading: false,
         auth: false,

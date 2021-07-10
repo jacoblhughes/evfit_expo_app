@@ -7,6 +7,8 @@ import {
   Image,
   Dimensions,
   ScrollView,
+  SafeAreaView,
+  FlatList,
 } from "react-native";
 import { connect } from "react-redux";
 import { setTokenAction } from "../actions/MyActions.js";
@@ -29,67 +31,91 @@ import {
   StackedBarChart,
 } from "react-native-chart-kit";
 
+const screenWidth = Dimensions.get("window").width;
+const screenHeight = Dimensions.get("window").height;
+
+
 class HabitHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       GBP: 0,
-      GBPPercent:0,
+      GBPPercent: 0,
+      GBPDenominator: 0,
+      twoWeeks: (new Date(new Date(Date.now() - this.props.enemies.todayOffset)).getTime() - (86400000 * 14)),
     };
+    this.goodBoyPoints = this.goodBoyPoints.bind(this);
+
   }
+  
 
-  componentDidMount() {
+  goodBoyPoints = () => {
     this.props.enemies.habitHistory.map((item) => {
-
       let time = item.created;
       let time1 = time.split("T")[0];
 
-      if (item.habit == this.props.enemies.userHabit && new Date(time1).getTime() > new Date(Date.now() - (86400000 *15)) && item.reply == 'Yes' ) {
-        // console.log(item)
+      if (
+        item.habit == this.props.enemies.userHabitKey &&
+        new Date(time1).getTime() > this.state.twoWeeks &&
+        item.reply == "Yes"
+      ) {
         this.setState({
           GBP: this.state.GBP++,
         });
       }
+
     });
+
     this.setState({
       GBP: this.state.GBP,
-      GBPPercent: this.state.GBP/14
     });
-  }
-
-  componentDidUpdate(prevProps) {
-
-  }
-
-  habitList = () => {
-    return this.props.enemies.habitHistory.map((item) => {
-      let time = item.created;
-      let time1 = time.split("T")[0];
-
-      for (let i = 0; i < this.props.enemies.getHabits.length; i++) {
-
-        if (item.habit == this.props.enemies.getHabits[i]["id"]) {
-          item.habit = this.props.enemies.getHabits[i]["name"];
-        }
-      }
-      return (
-        <View style={styles.post} key={item.id}>
-          <Text style={styles.postMessage}>{item.reply}</Text>
-          <Text style={styles.postMessage}>{item.habit}</Text>
-          <Text style={styles.postMessage}>{time1}</Text>
-        </View>
-      );
+    this.setState({
+      GBPPercent: this.state.GBP / 14,
     });
+
   };
 
+  componentDidMount() {
+    this.goodBoyPoints()
+
+  }
+
+  componentDidUpdate(prevProps) {}
+
   render() {
+
     return (
       <View style={styles.container}>
         <View style={styles.textView}>
-          <Text style={styles.text}>Habit History</Text>
-          <Text style={styles.text}>Current Habit: {this.props.enemies.userHabit}</Text>
-          <Text style={styles.text}>Current Stats: {this.state.GBP}/14 = {(this.state.GBPPercent).toFixed(2)*100} %</Text>
-          <ScrollView>{this.habitList()}</ScrollView>
+          <Text style={styles.text}>
+            Current Habit: {this.props.enemies.userHabit}
+          </Text>
+          <Text style={styles.text}>
+            Past Two Weeks: {this.state.GBP}/14
+          </Text>
+          {/* <Text style={styles.text}>
+            Current Stats for Past Three Weeks: {this.state.GBP}/14 ={" "}
+          </Text> */}
+        </View>
+        <View style={styles.chartView}>
+          <ProgressChart
+            data={[this.state.GBPPercent]}
+            width={screenWidth}
+            height={screenHeight/1.2}
+            strokeWidth={25}
+            radius={100}
+            chartConfig={{
+              backgroundColor: '#1F3252',
+              backgroundGradientFrom: '#1F3252',
+              backgroundGradientTo: '#1F3252',
+              decimalPlaces: 0,
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
+                borderRadius: 16,
+              },
+            }}
+            hideLegend={false}
+          />
         </View>
       </View>
     );
@@ -107,10 +133,15 @@ const styles = StyleSheet.create({
     // height: null,
     resizeMode: "contain",
   },
-  buttonView: {
+  textView: {
     flex: 1,
     justifyContent: "space-evenly",
     alignItems: "stretch",
+  },
+  chartView:{
+    flex: 6,
+    backgroundColor: '#1F3252'
+
   },
   button: {
     flex: 1,

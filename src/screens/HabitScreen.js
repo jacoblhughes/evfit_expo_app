@@ -19,11 +19,7 @@ class HabitScreen extends React.Component {
     this.submitYes = this.submitYes.bind(this);
     this.submitNo = this.submitNo.bind(this);
     this.habitCheck = this.habitCheck.bind(this);
-    this.state = {
-      lastLoggedDay: new Date(this.props.enemies.lastPost)
-        .toISOString()
-        .split("T")[0],
-    };
+
   }
 
   submitYes = async () => {
@@ -40,7 +36,7 @@ class HabitScreen extends React.Component {
         habit_record: this.props.enemies.userNameKey,
         reply: "Yes",
         created: new Date(
-          this.props.enemies.date - this.props.enemies.todayOffset
+          new Date(Date.now()).getTime() - this.props.enemies.todayOffset
         ),
       }),
     })
@@ -51,7 +47,6 @@ class HabitScreen extends React.Component {
         this.habitCheck();
       });
 
-    this.props.loadingAction(false);
   };
 
   submitNo = async () => {
@@ -68,7 +63,7 @@ class HabitScreen extends React.Component {
         habit_record: this.props.enemies.userNameKey,
         reply: "No",
         created: new Date(
-          this.props.enemies.date - this.props.enemies.todayOffset
+          new Date(Date.now()).getTime() - this.props.enemies.todayOffset
         ),
       }),
     })
@@ -79,7 +74,6 @@ class HabitScreen extends React.Component {
         this.habitCheck();
       });
 
-    this.props.loadingAction(false);
   };
 
   habitCheck = async () => {
@@ -96,34 +90,19 @@ class HabitScreen extends React.Component {
         return response.json();
       })
       .then((res) => {
-        let tempHabitObject = [];
-        
-        for (let i = 0; i < res.length; i++) {
-          if (res[i]["habit_record"] === this.props.enemies.userNameKey) {
-            tempHabitObject.push(res[i]);
-          }
-        }
-        this.props.setHabitHistoryAction(tempHabitObject);
 
-        for (let i = 0; i < res.length; i++) {
-          if (res[i]["habit_record"] === this.props.enemies.userNameKey) {
-            return this.props.checkLastPostAction(res[i]["created"]);
-          }
-        }
-
-        this.setState({
-          lastLoggedDay: new Date(
-            this.props.enemies.date - this.props.enemies.todayOffset
-          )
-            .toISOString()
-            .split("T")[0],
-        });
+        this.props.checkLastPostAction(res[0]["created"])
+        this.props.setHabitHistoryAction(res);
+        this.props.loadingAction(false);
 
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+
+
 
   componentDidMount() {
     this.props.authorizeAction(true);
@@ -135,17 +114,13 @@ class HabitScreen extends React.Component {
     if (this.props.enemies.auth == false) {
       this.props.navigation.replace("HomeSec");
     }
-    Promise.all[this.habitCheck()];
   }
 
   render() {
     if (this.props.enemies.loading) {
       return <LoadingScreen />;
     } else if (
-      new Date(this.props.enemies.date - this.props.enemies.todayOffset)
-        .toISOString()
-        .split("T")[0] !==
-      new Date(this.props.enemies.lastPost).toISOString().split("T")[0]
+      this.props.enemies.todayDate !== this.props.enemies.lastPostDate
     ) {
       return (
         <View style={styles.container}>
@@ -162,7 +137,7 @@ class HabitScreen extends React.Component {
               Your habit: {this.props.enemies.userHabit}
             </Text>
             <Text style={styles.text}>
-              Your last logged day: {this.state.lastLoggedDay}
+              Your last logged day: {this.props.enemies.lastPostDate}
             </Text>
           </View>
           <View style={styles.buttonView}>
@@ -218,7 +193,7 @@ class HabitScreen extends React.Component {
               Your habit: {this.props.enemies.userHabit}
             </Text>
             <Text style={styles.text}>
-              Your last logged day: {this.state.lastLoggedDay}
+              Your last logged day: {this.props.enemies.lastPostDate}
             </Text>
           </View>
           <View style={styles.buttonView}>

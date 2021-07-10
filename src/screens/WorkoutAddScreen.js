@@ -86,7 +86,7 @@ class WorkoutAddScreen extends React.Component {
       },
       body: JSON.stringify({
         exercise_record: this.props.enemies.userNameKey,
-        created: new Date(Date.now()),
+        created: new Date(new Date(Date.now()).getTime() - this.props.enemies.todayOffset),
         exercise: this.state.exercise,
       }),
     })
@@ -94,12 +94,14 @@ class WorkoutAddScreen extends React.Component {
         return response.json();
       })
       .then((res) => {
-        Promise.all(this.fetchExerciseLog());
-        this.props.navigation.navigate("WorkoutLogSec");
+        this.fetchExerciseLog();
       })
       .catch((error) => {
         console.log(error);
       });
+
+
+
   };
 
   render() {
@@ -121,6 +123,8 @@ class WorkoutAddScreen extends React.Component {
             style={styles.homeButton}
             onPress={() => {
               this.postExercise();
+              this.props.navigation.navigate("Workout Log");
+
             }}
           >
             <View style={styles.button}>
