@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     flex: 4,
+    paddingTop: 20,
   },
   post: {
     marginBottom: 10,

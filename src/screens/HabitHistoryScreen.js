@@ -34,7 +34,6 @@ import {
 const screenWidth = Dimensions.get("window").width;
 const screenHeight = Dimensions.get("window").height;
 
-
 class HabitHistoryScreen extends React.Component {
   constructor(props) {
     super(props);
@@ -42,12 +41,15 @@ class HabitHistoryScreen extends React.Component {
       GBP: 0,
       GBPPercent: 0,
       GBPDenominator: 0,
-      twoWeeks: (new Date(new Date(Date.now() - this.props.enemies.todayOffset)).getTime() - (86400000 * 14)),
+      twoWeeks:
+        new Date(
+          new Date(Date.now() - this.props.enemies.todayOffset)
+        ).getTime() -
+        86400000 * 14,
     };
     this.goodBoyPoints = this.goodBoyPoints.bind(this);
-
+    this.habitList = this.habitList.bind(this);
   }
-  
 
   goodBoyPoints = () => {
     this.props.enemies.habitHistory.map((item) => {
@@ -63,7 +65,6 @@ class HabitHistoryScreen extends React.Component {
           GBP: this.state.GBP++,
         });
       }
-
     });
 
     this.setState({
@@ -72,50 +73,65 @@ class HabitHistoryScreen extends React.Component {
     this.setState({
       GBPPercent: this.state.GBP / 14,
     });
+  };
 
+  habitList = () => {
+    let i = 1
+    return this.props.enemies.habitHistory.map((item) => {
+      let time = item.created;
+      let time1 = time.split("T")[0];
+
+      return (
+        <View style={styles.post} key={item.id}>
+          <Text style={styles.postMessage}>{time1}</Text>
+          <Text style={styles.postMessage}>{item.reply}</Text>
+          <Text style={styles.postMessage}>{item.habit_name}</Text>
+        </View>
+      );
+    });
   };
 
   componentDidMount() {
-    this.goodBoyPoints()
-
+    this.goodBoyPoints();
   }
 
   componentDidUpdate(prevProps) {}
 
   render() {
-
     return (
       <View style={styles.container}>
         <View style={styles.textView}>
           <Text style={styles.text}>
             Current Habit: {this.props.enemies.userHabit}
           </Text>
-          <Text style={styles.text}>
-            Past Two Weeks: {this.state.GBP}/14
-          </Text>
-          {/* <Text style={styles.text}>
-            Current Stats for Past Three Weeks: {this.state.GBP}/14 ={" "}
-          </Text> */}
+          <Text style={styles.text}>Past Two Weeks: {this.state.GBP}/14</Text>
+          <Text style={styles.text}>{this.state.GBPPercent.toFixed(2)*100} %</Text>
         </View>
         <View style={styles.chartView}>
           <ProgressChart
             data={[this.state.GBPPercent]}
             width={screenWidth}
-            height={screenHeight/1.2}
-            strokeWidth={25}
-            radius={100}
+            height={300}
+            strokeWidth={20}
+            radius={75}
             chartConfig={{
-              backgroundColor: '#1F3252',
-              backgroundGradientFrom: '#1F3252',
-              backgroundGradientTo: '#1F3252',
+              backgroundColor: "#1F3252",
+              backgroundGradientFrom: "#1F3252",
+              backgroundGradientTo: "#1F3252",
               decimalPlaces: 0,
               color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
               style: {
                 borderRadius: 16,
               },
             }}
-            hideLegend={false}
+            hideLegend={true}
           />
+        </View>
+        <View>
+          <Text style={styles.text}>30 Most Recent Submissions</Text>
+        </View>
+        <View style={styles.scrollView}>
+          <ScrollView>{this.habitList()}</ScrollView>
         </View>
       </View>
     );
@@ -138,10 +154,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     alignItems: "stretch",
   },
-  chartView:{
-    flex: 6,
-    backgroundColor: '#1F3252'
-
+  chartView: {
+    flex: 3,
+    backgroundColor: "#1F3252",
+  },
+  scrollView: {
+    flex: 3,
   },
   button: {
     flex: 1,
@@ -151,10 +169,6 @@ const styles = StyleSheet.create({
     height: 40,
     justifyContent: "center",
   },
-  textAll: {
-    color: "#FFFFFF",
-    alignSelf: "center",
-  },
   text: {
     alignSelf: "center",
   },
@@ -163,6 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
   },
+  postMessage: {},
 });
 
 const mapStateToProps = (state) => {

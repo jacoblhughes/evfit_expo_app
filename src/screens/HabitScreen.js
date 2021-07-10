@@ -201,7 +201,7 @@ class HabitScreen extends React.Component {
               Congratulations, you already logged!
             </Text>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
                 this.props.navigation.goBack();
@@ -210,7 +210,7 @@ class HabitScreen extends React.Component {
               <View style={styles.homeButtonView}>
                 <Text style={styles.textAll}>Go Back</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {

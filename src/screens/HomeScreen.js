@@ -62,7 +62,12 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     LogBox.ignoreLogs(["Animated: `useNativeDriver`"]);
-    if(this.props.enemies.todayDate !== new Date(new Date(Date.now()).getTime() - this.props.enemies.todayOffset).toISOString().split('T')[0] ){
+    // if(this.props.enemies.todayDate !== new Date(new Date(Date.now()).getTime() - this.props.enemies.todayOffset).toISOString().split('T')[0] ){
+    //   this.fetchProfile();
+    //   this.habitCheck();
+    //   this.fetchExerciseLog();
+    // }
+    if(this.props.enemies.token !== null ){
       this.fetchProfile();
       this.habitCheck();
       this.fetchExerciseLog();
@@ -298,7 +303,6 @@ class HomeScreen extends React.Component {
         return response.json();
       })
       .then((res) => {
-        console.log(res)
 
         this.props.checkLastPostAction(res[0]["created"])
         this.props.setHabitHistoryAction(res);
@@ -423,16 +427,7 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Exercise Tools</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.homeButton}
-              onPress={() => {
-                this.props.navigation.navigate("Settings");
-              }}
-            >
-              <View style={styles.homeButtonView}>
-                <Text style={styles.textAll}>Settings</Text>
-              </View>
-            </TouchableOpacity>
+
             <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
@@ -446,6 +441,17 @@ class HomeScreen extends React.Component {
             <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
+                this.props.navigation.navigate("Settings");
+              }}
+            >
+              <View style={styles.homeButtonView}>
+                <Text style={styles.textAll}>Settings</Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
                 this._storeAsyncStorageTokenandLogout(null);
               }}
             >
@@ -453,7 +459,7 @@ class HomeScreen extends React.Component {
                 <Text style={styles.textAll}>Logout</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={styles.homeButton}
               onPress={() => {
                 console.log('ddd')
@@ -463,7 +469,7 @@ class HomeScreen extends React.Component {
               <View style={styles.homeButtonView}>
                 <Text style={styles.textAll}>Test</Text>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           <View style={styles.postTitleView}>
             <Text style={styles.postTitle}>
