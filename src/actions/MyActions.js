@@ -81,3 +81,8 @@ export const setExerciseLogAction = (object) => ({
   type: "SETEXERCISELOG",
   payload: object,
 });
+
+export const setWorkoutTemplates = (object) => ({
+  type: "SETWORKOUTTEMPLATES",
+  payload: object,
+});

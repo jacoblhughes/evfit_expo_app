@@ -24,6 +24,7 @@ const INITIAL_STATE = {
   setExpoAccepted: false,
   habitHistory: null,
   exerciseLog: null,
+  workoutTemplates: null,
 };
 
 const myReducer = (state = INITIAL_STATE, action) => {
@@ -186,7 +187,13 @@ const myReducer = (state = INITIAL_STATE, action) => {
       };
     }
 
-
+    case 'SETWORKOUTTEMPLATES':{
+      return {
+        ...state,
+        // and update the copy with the new value
+        workoutTemplates: action.payload,
+      };
+    }
     default:
       return state;
   }

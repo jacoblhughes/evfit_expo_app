@@ -24,6 +24,7 @@ import { getPostsAction } from "../actions/MyActions.js";
 import { logOutAction } from "../actions/MyActions.js";
 import { getHabitsAction } from "../actions/MyActions";
 import {setHabitHistoryAction } from "../actions/MyActions"
+import { setWorkoutTemplates } from "../actions/MyActions.js";
 
 import { bindActionCreators } from "redux";
 
@@ -58,6 +59,7 @@ class HomeScreen extends React.Component {
     // this.postMessage = this.postMessage.bind(this);
     this.fetchHabits = this.fetchHabits.bind(this);
     this.fetchExerciseLog = this.fetchExerciseLog.bind(this);
+    this.fetchWorkoutTemplates = this.fetchWorkoutTemplates.bind(this);
   }
 
   componentDidMount() {
@@ -71,6 +73,8 @@ class HomeScreen extends React.Component {
       this.fetchProfile();
       this.habitCheck();
       this.fetchExerciseLog();
+      this.fetchWorkoutTemplates();
+      this.fetchPosts();
     }
 
   }
@@ -254,7 +258,8 @@ class HomeScreen extends React.Component {
             this.habitCheck(),
             this.fetchPosts(),
             this.fetchHabits(),
-            this.fetchExerciseLog())
+            this.fetchExerciseLog(),
+            this.fetchWorkoutTemplates)
           ];
           this.props.loadingAction(false);
         });
@@ -283,6 +288,28 @@ class HomeScreen extends React.Component {
         .then((res) => {
           // console.log(res);
           this.props.updateProfileInfoAction(res[0]);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  fetchWorkoutTemplates = async () => {
+    try {
+      await fetch(`${this.props.enemies.internet}/api/workouttemplate/`, {
+        method: "GET",
+        headers: {
+          // "Accept": "application/json",
+          "Content-Type": "application/json",
+          // 'X-Requested-With': 'XMLHttpRequest',
+          Authorization: "Token " + this.props.enemies.token,
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((res) => {
+          this.props.setWorkoutTemplates(res);
         });
     } catch (error) {
       console.log(error);
@@ -600,6 +627,7 @@ const mapDispatchToProps = (dispatch) =>
       getHabitsAction,
       setExerciseLogAction,
       setHabitHistoryAction,
+      setWorkoutTemplates
     },
     dispatch
   );
