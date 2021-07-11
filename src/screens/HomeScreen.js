@@ -334,6 +334,8 @@ class HomeScreen extends React.Component {
       return (
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+
           style={styles.container}
         >
           <View style={styles.logoView}>
@@ -497,6 +499,8 @@ const styles = StyleSheet.create({
   logoView: {
     flex: 4,
     alignItems: "center",
+    marginBottom: 10,
+    
   },
   logo: {
     flex: 1,

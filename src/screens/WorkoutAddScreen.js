@@ -7,6 +7,7 @@ import {
   Image,
   TextInput,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import { connect } from "react-redux";
 import { setTokenAction } from "../actions/MyActions.js";
@@ -86,7 +87,9 @@ class WorkoutAddScreen extends React.Component {
       },
       body: JSON.stringify({
         exercise_record: this.props.enemies.userNameKey,
-        created: new Date(new Date(Date.now()).getTime() - this.props.enemies.todayOffset),
+        created: new Date(
+          new Date(Date.now()).getTime() - this.props.enemies.todayOffset
+        ),
         exercise: this.state.exercise,
       }),
     })
@@ -99,9 +102,6 @@ class WorkoutAddScreen extends React.Component {
       .catch((error) => {
         console.log(error);
       });
-
-
-
   };
 
   render() {
@@ -110,28 +110,33 @@ class WorkoutAddScreen extends React.Component {
         <View style={styles.textView}>
           <Text style={styles.text}>Type your workout below:</Text>
         </View>
-        <View style={styles.buttonView}>
-          <TextInput
-            placeholder="Type here"
-            value={this.state.exercise}
-            onChangeText={(text) => this.setState({ exercise: text })}
-            multiline = {true}
-          ></TextInput>
-        </View>
-        <View style={styles.exerciseView}>
-          <TouchableOpacity
-            style={styles.homeButton}
-            onPress={() => {
-              this.postExercise();
-              this.props.navigation.navigate("Workout Log");
-
-            }}
-          >
-            <View style={styles.button}>
-              <Text style={styles.textAll}>Submit workout</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+          style={styles.logView}
+        >
+          <View style={styles.exerciseView}>
+            <TextInput
+              placeholder="Type here"
+              value={this.state.exercise}
+              onChangeText={(text) => this.setState({ exercise: text })}
+              multiline={true}
+            ></TextInput>
+          </View>
+          <View style={styles.buttonView}>
+            <TouchableOpacity
+              style={styles.homeButton}
+              onPress={() => {
+                this.postExercise();
+                this.props.navigation.navigate("Workout Log");
+              }}
+            >
+              <View style={styles.button}>
+                <Text style={styles.textAll}>Submit workout</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -146,14 +151,17 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "center",
   },
+  logView: {
+    flex: 8,
+  },
   buttonView: {
     flex: 1,
   },
-  exerciseView:{
-  flex: 5,
-  borderColor: '#000000',
-  borderWidth: 1,
-},
+  exerciseView: {
+    flex: 9,
+    borderColor: "#000000",
+    borderWidth: 1,
+  },
   post: {
     marginBottom: 10,
   },

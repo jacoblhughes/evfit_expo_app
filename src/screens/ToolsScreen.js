@@ -74,6 +74,16 @@ class ToolsScreen extends React.Component {
               <Text style={styles.textAll}>Count Down Timer</Text>
             </View>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.homeButton}
+            onPress={() => {
+              this.props.navigation.navigate("Workout Templates");
+            }}
+          >
+            <View style={styles.button}>
+              <Text style={styles.textAll}>Workout Templates</Text>
+            </View>
+          </TouchableOpacity>
           {/* <TouchableOpacity
             style={styles.homeButton}
             onPress={() => {

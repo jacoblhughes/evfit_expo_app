@@ -25,6 +25,8 @@ import { connect } from "react-redux";
 import WorkoutLogScreen from "./src/screens/WorkoutLogScreen";
 import WorkoutAddScreen from "./src/screens/WorkoutAddScreen";
 
+import WorkoutTemplatesScreen from "./src/screens/WorkoutTemplatesScreen";
+
 // import LoadingScreen from './src/screens/LoadingScreen';
 import ReactDOM from "react-dom";
 
@@ -184,7 +186,7 @@ function ToolsSec() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Workout Tools"
+        name="Exercise Tools"
         component={ToolsScreen}
         options={{
           headerShown: true,
@@ -246,6 +248,22 @@ function ToolsSec() {
           },
         }}
       />
+      <Stack.Screen
+        name="Workout Templates"
+        component={WorkoutTemplatesScreen}
+        options={{
+          headerShown: true,
+          headerTintColor: "#FFFFFF",
+          headerStyle: {
+            backgroundColor: "#1F3252",
+          },
+          headerTitleStyle: {
+            textAlign: "center",
+            alignSelf: "flex-start",
+            fontSize: 10,
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -268,7 +286,7 @@ function WorkoutLogSec() {
           },
         }}
       />
-            <Stack.Screen
+      <Stack.Screen
         name="Workout Add"
         component={WorkoutAddScreen}
         options={{
@@ -288,41 +306,40 @@ function WorkoutLogSec() {
 }
 
 function App() {
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="WelcomeSec">
+          <Stack.Screen
+            name="WelcomeSec"
+            options={{ headerShown: false }}
+            component={WelcomeSec}
+          />
+          <Stack.Screen
+            name="HomeSec"
+            options={{ headerShown: false }}
+            component={HomeSec}
+          />
 
-    return (
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="WelcomeSec">
-            <Stack.Screen
-              name="WelcomeSec"
-              options={{ headerShown: false }}
-              component={WelcomeSec}
-            />
-            <Stack.Screen
-              name="HomeSec"
-              options={{ headerShown: false }}
-              component={HomeSec}
-            />
-
-            <Stack.Screen
-              name="HabitSec"
-              options={{ headerShown: false }}
-              component={HabitSec}
-            />
-            <Stack.Screen
-              name="ToolsSec"
-              options={{ headerShown: false }}
-              component={ToolsSec}
-            />
-            <Stack.Screen
-              name="WorkoutLogSec"
-              options={{ headerShown: false }}
-              component={WorkoutLogSec}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>
-    );
+          <Stack.Screen
+            name="HabitSec"
+            options={{ headerShown: false }}
+            component={HabitSec}
+          />
+          <Stack.Screen
+            name="ToolsSec"
+            options={{ headerShown: false }}
+            component={ToolsSec}
+          />
+          <Stack.Screen
+            name="WorkoutLogSec"
+            options={{ headerShown: false }}
+            component={WorkoutLogSec}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
 }
 
 // const mapStateToProps = (state) => {
@@ -331,7 +348,5 @@ function App() {
 // };
 
 export default App;
-
-
 
 // export default connect(mapStateToProps)(App);

@@ -59,7 +59,7 @@ class SocialScreen extends React.Component {
       },
       body: JSON.stringify({
         user: this.props.enemies.userNameKey,
-        created_at: new Date(new Date(Date.now()).getTime() - this.props.enemies.todayOffset),
+        created_at: new Date(Date.now()),
         message: this.state.message,
         message_html: "",
         habit: this.props.route.params.postId,
@@ -108,10 +108,12 @@ class SocialScreen extends React.Component {
 
   socialList = () => {
     return this.props.route.params.postData["posts"].map((item) => {
-      let time = item.created_at;
-      let time1 = time.split("T")[0];
-      let time2 = time.split("T")[1];
+      let newCreated = new Date(item.created_at).getTime()
+      let bigTime = new Date(newCreated - this.props.enemies.todayOffset).toISOString();
+      let time1 = bigTime.split("T")[0];
+      let time2 = bigTime.split("T")[1];
       let time3 = time2.split(".")[0];
+      console.log(time3)
       if (item.user == this.props.enemies.userNameKey) {
         return (
           <View style={styles.post} key={item.created_at}>
@@ -137,7 +139,7 @@ class SocialScreen extends React.Component {
             <Text style={styles.postMessage}>{item.message}</Text>
             <Text>- {item.username} </Text>
             <Text>
-              @ {time1}//{time3}
+              @ {time1}//{time3.slice(0, 5)}
             </Text>
           </View>
         );
@@ -174,7 +176,7 @@ class SocialScreen extends React.Component {
     return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "null"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
         style={styles.container}
       >
         <View style={styles.social_area}>

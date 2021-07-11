@@ -83,23 +83,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  logo: {
-    flex: 5,
-    width: null,
-    height: null,
-    resizeMode: "contain",
-  },
-  buttonView: {
-    flex: 3,
-    justifyContent: "center",
-  },
-  button: {
-    flex: 1,
-  },
+  
   loading: {
+    flex: 1,
     width: 250,
-    height: 50,
     backgroundColor: "#1F3252",
+    justifyContent:'center'
   },
   text: {
     fontSize: 28,
