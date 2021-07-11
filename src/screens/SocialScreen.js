@@ -59,7 +59,7 @@ class SocialScreen extends React.Component {
       },
       body: JSON.stringify({
         user: this.props.enemies.userNameKey,
-        created_at: new Date(Date.now()).getTime() - this.props.enemies.todayOffset,
+        created_at: new Date(new Date(Date.now()).getTime() - this.props.enemies.todayOffset),
         message: this.state.message,
         message_html: "",
         habit: this.props.route.params.postId,
@@ -98,10 +98,8 @@ class SocialScreen extends React.Component {
         return response.text();
       })
       .then((res) => {
-        console.log(res);
         this.fetchPosts();
 
-        console.log("------------------");
       })
       .catch((error) => {
         console.log(error);
