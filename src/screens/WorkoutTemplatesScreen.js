@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
-class StopWatchScreen extends React.Component {
+class WorkoutTemplateScreen extends React.Component {
   constructor(props) {
     super(props);
     // this.toggleTimer = this.toggleTimer.bind(this);
@@ -37,7 +37,7 @@ class StopWatchScreen extends React.Component {
     return this.props.enemies.workoutTemplates.map((item) => {
 
       return (
-        <View style={styles.subcategoryView}>
+        <View style={styles.subcategoryView} key={item.id}>
           <View style={styles.titleView}>
             <Text>{item.category}</Text>
 
@@ -120,4 +120,4 @@ const mapStateToProps = (state) => {
   return { enemies };
 };
 
-export default connect(mapStateToProps)(StopWatchScreen);
+export default connect(mapStateToProps)(WorkoutTemplateScreen);

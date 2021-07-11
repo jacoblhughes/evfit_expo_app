@@ -421,7 +421,7 @@ class HomeScreen extends React.Component {
       this.props.enemies.getPosts !== null &&
       this.props.enemies.recentBlog !== null &&
       this.props.enemies.getHabits
-      // && this.props.enemies.exerciseLog !== null
+      && this.props.enemies.workoutTemplates !== null
     ) {
       return (
         <View style={styles.container}>
