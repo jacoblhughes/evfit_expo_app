@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   textView: {
     flex: 1,
     alignSelf: "center",
+    paddingBottom: 20,
   },
   logView: {
     flex: 8,
@@ -161,6 +162,8 @@ const styles = StyleSheet.create({
     flex: 9,
     borderColor: "#000000",
     borderWidth: 1,
+    paddingHorizontal: 15,
+    marginHorizontal: 10,
   },
   post: {
     marginBottom: 10,

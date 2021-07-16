@@ -133,8 +133,6 @@ class StopWatchScreen extends React.Component {
   }
 }
 
-const handleTimerComplete = () => alert("custom completion function");
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

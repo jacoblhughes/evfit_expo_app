@@ -124,7 +124,6 @@ class SettingsScreen extends React.Component {
 
   registerForPushNotificationsAsync = async () => {
     
-    console.log("settings here");
     if (Constants.isDevice) {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync();
@@ -158,7 +157,7 @@ class SettingsScreen extends React.Component {
 
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Work That Habit! 📬",
+        title: "Work That Habit! 💪",
         body: 'Log your progress',
       },
       trigger: { 
@@ -170,7 +169,6 @@ class SettingsScreen extends React.Component {
   };
 
   unregisterForPushNotificationsAsync = async () => {
-    console.log("unsettings here");
 
     await Notifications.cancelAllScheduledNotificationsAsync();
     await this.props.unsetExpoAction();

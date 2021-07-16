@@ -202,7 +202,7 @@ class SocialScreen extends React.Component {
           <View
           // style={styles.submitButton}
           >
-            <Text style={styles.textAll}>Submit</Text>
+            <Text style={styles.textSubmit}>Submit</Text>
           </View>
         </TouchableOpacity>
       </KeyboardAvoidingView>
@@ -234,11 +234,16 @@ const styles = StyleSheet.create({
     flex: 1,
     borderColor: "black",
     borderWidth: 1,
+    paddingHorizontal: 10,
   },
   submitButtonTouchable: {
     flex: 1,
     backgroundColor: "#1F3252",
     justifyContent: "center",
+  },
+  textSubmit:{
+    color: "#FFFFFF",
+    textAlign: 'center',
   },
   textAll: {
     color: "#FFFFFF",

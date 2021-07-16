@@ -75,6 +75,8 @@ class HomeScreen extends React.Component {
       this.fetchExerciseLog();
       this.fetchWorkoutTemplates();
       this.fetchPosts();
+      this.fetchBlog();
+      this.fetchHabits();
     }
 
   }
@@ -259,7 +261,7 @@ class HomeScreen extends React.Component {
             this.fetchPosts(),
             this.fetchHabits(),
             this.fetchExerciseLog(),
-            this.fetchWorkoutTemplates)
+            this.fetchWorkoutTemplates())
           ];
           this.props.loadingAction(false);
         });
